@@ -22,18 +22,20 @@ class MyHomePage extends StatelessWidget {
         centerTitle: true,
         actions: [IconButton(icon: Icon(Icons.add), onPressed: null)],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Container(
-            height: 100,
-            child: Card(
-              color: Colors.blue,
-              elevation: 5,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Container(
+              height: 100,
+              child: Card(
+                color: Colors.blue,
+                elevation: 5,
+              ),
             ),
-          ),
-          TransactionUser()
-        ],
+            TransactionUser()
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: null,
