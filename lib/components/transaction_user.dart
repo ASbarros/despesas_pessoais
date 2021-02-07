@@ -1,10 +1,10 @@
 import 'dart:math';
 
-import 'package:financas_pessoais/components/transaction_form.dart';
-import 'package:financas_pessoais/components/transaction_list.dart';
 import 'package:flutter/material.dart';
 
 import '../models/transaction.dart';
+import 'transaction_form.dart';
+import 'transaction_list.dart';
 
 class TransactionUser extends StatefulWidget {
   @override
@@ -44,7 +44,9 @@ class _TransactionUserState extends State<TransactionUser> {
     return Column(
       children: [
         TransactionList(transactions: _transactions),
-        TransactionForm()
+        TransactionForm(
+          onSubmit: _addTransaction,
+        )
       ],
     );
   }
