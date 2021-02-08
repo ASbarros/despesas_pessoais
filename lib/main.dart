@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'components/chart.dart';
 import 'components/transaction_form.dart';
@@ -36,6 +37,13 @@ class MyApp extends StatelessWidget {
               ),
         ),
       ),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
+      supportedLocales: [
+        const Locale('pt', 'BR'),
+      ],
       home: MyHomePage(),
     );
   }
