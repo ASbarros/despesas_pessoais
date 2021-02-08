@@ -39,7 +39,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   _addTransaction(String title, double value, DateTime date) {
     final newTransaction = Transaction(
-      id: Random().nextDouble().toString(),
       title: title,
       value: value,
       date: date,
@@ -54,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
     Navigator.of(context).pop();
   }
 
-  _removeTransaction(String id) {
+  _removeTransaction(int id) {
     setState(() {
       _transactions.removeWhere((tr) => tr.id == id);
     });
