@@ -14,7 +14,7 @@ class _TransactionFormState extends State<TransactionForm> {
   final _titleController = TextEditingController();
   final _valueController = TextEditingController();
 
-  DateTime _selectedDate = DateTime.now().subtract(Duration(days: 1));
+  DateTime _selectedDate = DateTime.now();
 
   _submitForm() {
     final title = _titleController.text;
@@ -27,12 +27,11 @@ class _TransactionFormState extends State<TransactionForm> {
 
   _showDatePicker() {
     showDatePicker(
-            context: context,
-            initialDate: DateTime.now().subtract(Duration(days: 1)),
-            firstDate: DateTime(2021),
-            lastDate: DateTime.now(),
-            currentDate: DateTime.now().subtract(Duration(days: 1)))
-        .then((pickedDate) {
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2021),
+      lastDate: DateTime.now(),
+    ).then((pickedDate) {
       if (pickedDate == null) {
         return;
       }
