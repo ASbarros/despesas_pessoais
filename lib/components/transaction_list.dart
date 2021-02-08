@@ -5,7 +5,7 @@ import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
-  final void Function(String) onRemove;
+  final void Function(int) onRemove;
 
   const TransactionList(
       {Key key, @required this.transactions, @required this.onRemove})
