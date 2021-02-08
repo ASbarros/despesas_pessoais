@@ -1,8 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 import '../components/chart.dart';
+import '../components/my_drawer.dart';
 import '../components/transaction_form.dart';
 import '../components/transaction_list.dart';
 import '../database/database_helper.dart';
@@ -81,6 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
+      drawer: MyDrawer(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
