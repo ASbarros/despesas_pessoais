@@ -56,6 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
   _removeTransaction(int id) {
     setState(() {
       _transactions.removeWhere((tr) => tr.id == id);
+      DatabaseHelper.instance.delete(id, 'expences');
     });
   }
 
