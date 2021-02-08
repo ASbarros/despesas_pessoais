@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 
 class Transaction {
@@ -11,4 +13,15 @@ class Transaction {
       @required this.title,
       @required this.value,
       @required this.date});
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'title': title,
+      'value': value,
+      'date': date?.millisecondsSinceEpoch,
+    };
+  }
+
+  String toJson() => json.encode(toMap());
 }
