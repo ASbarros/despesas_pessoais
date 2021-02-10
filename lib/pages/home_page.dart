@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../common/custom_drawer/my_drawer.dart';
 import '../components/chart.dart';
-import '../components/my_drawer.dart';
-import '../components/transaction_form.dart';
-import '../components/transaction_list.dart';
 import '../database/database_helper.dart';
+import '../database/tables/expenses_table.dart';
+import '../models/category.dart';
 import '../models/transaction.dart';
+import 'transaction/transaction_form.dart';
+import 'transaction/transaction_list.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -18,15 +20,13 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-
-    DatabaseHelper.instance.queryAllRows('expences').then((value) {
-      // ignore: avoid_function_literals_in_foreach_calls
-      value.forEach((element) {
+    setState(() {
+      Transaction.getAll().then((list) {
         setState(() {
-          _transactions.add(Transaction.fromMap(element));
+          _transactions.addAll(list);
         });
-      });
-    }).catchError(print);
+      }).catchError(print);
+    });
   }
 
   List<Transaction> get _recentTransactions {
@@ -36,14 +36,12 @@ class _MyHomePageState extends State<MyHomePage> {
         .toList();
   }
 
-  _addTransaction(String title, double value, DateTime date) {
+  _addTransaction(
+      String title, double value, DateTime date, Category category) {
     final newTransaction = Transaction(
-      title: title,
-      value: value,
-      date: date,
-    );
+        title: title, value: value, date: date, category: category.id);
 
-    DatabaseHelper.instance.insert(newTransaction, 'expences');
+    DatabaseHelper.instance.insert(newTransaction);
 
     setState(() {
       _transactions.add(newTransaction);
@@ -55,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
   _removeTransaction(int id) {
     setState(() {
       _transactions.removeWhere((tr) => tr.id == id);
-      DatabaseHelper.instance.delete(id, 'expences');
+      DatabaseHelper.instance.delete(id, ExpensesTable().table);
     });
   }
 

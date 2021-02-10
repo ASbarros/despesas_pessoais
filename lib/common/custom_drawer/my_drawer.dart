@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../pages/category/category_page.dart';
+import 'drawer_tile.dart';
+
 class MyDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -18,18 +21,27 @@ class MyDrawer extends StatelessWidget {
                       .image,
             ),
           ),
-          ListTile(
-              title: Text('Home', style: TextStyle(fontSize: 20)),
-              trailing: Icon(Icons.arrow_forward_ios_rounded),
-              onTap: () {}),
-          ListTile(
-              trailing: Icon(Icons.arrow_forward_ios_rounded),
-              title: Text('Categorias', style: TextStyle(fontSize: 20)),
-              onTap: () {}),
-          ListTile(
-              title: Text('Sobre', style: TextStyle(fontSize: 20)),
-              trailing: Icon(Icons.check),
-              onTap: () {}),
+          DrawerTile(
+            iconData: Icons.home,
+            title: "Início",
+          ),
+          DrawerTile(
+            iconData: Icons.list,
+            title: "Categorias",
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (ctx) => CategoryPage(),
+                ),
+              );
+            },
+          ),
+          DrawerTile(
+            iconData: Icons.check,
+            title: "Sobre",
+          ),
         ],
       ),
     );
