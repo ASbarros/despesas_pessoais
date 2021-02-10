@@ -19,12 +19,19 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   effective_dart: ^1.3.0
+  flutter_launcher_icons: "^0.8.0"
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/icone.png"
 
 flutter:
   uses-material-design: true
 
   assets:
     - assets/images/waiting.png
+    - assets/images/icone.png
   fonts:
     - family: OpenSans
       fonts:

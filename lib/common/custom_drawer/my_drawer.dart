@@ -17,7 +17,7 @@ class MyDrawer extends StatelessWidget {
             accountEmail: null,
             currentAccountPicture: CircleAvatar(
               backgroundImage:
-                  Image.asset('assets/images/waiting.png', fit: BoxFit.cover)
+                  Image.asset('assets/images/icone.png', fit: BoxFit.cover)
                       .image,
             ),
           ),
