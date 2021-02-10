@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import '../database/database_helper.dart';
 import '../database/tables/expenses_table.dart';
-import 'category.dart';
 import 'object_base.dart';
 
 class Transaction extends ObjectBase {
