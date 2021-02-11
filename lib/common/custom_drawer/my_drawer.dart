@@ -23,11 +23,11 @@ class MyDrawer extends StatelessWidget {
           ),
           DrawerTile(
             iconData: Icons.home,
-            title: "Início",
+            title: 'Início',
           ),
           DrawerTile(
             iconData: Icons.list,
-            title: "Categorias",
+            title: 'Categorias',
             onTap: () {
               Navigator.of(context).pop();
               Navigator.push(
@@ -40,7 +40,7 @@ class MyDrawer extends StatelessWidget {
           ),
           DrawerTile(
             iconData: Icons.check,
-            title: "Sobre",
+            title: 'Sobre',
           ),
         ],
       ),

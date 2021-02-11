@@ -36,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
         .toList();
   }
 
-  _addTransaction(
+  void _addTransaction(
       String title, double value, DateTime date, Category category) {
     final newTransaction = Transaction(
         title: title, value: value, date: date, category: category.id);
@@ -50,14 +50,14 @@ class _MyHomePageState extends State<MyHomePage> {
     Navigator.of(context).pop();
   }
 
-  _removeTransaction(int id) {
+  void _removeTransaction(int id) {
     setState(() {
       _transactions.removeWhere((tr) => tr.id == id);
       DatabaseHelper.instance.delete(id, ExpensesTable().table);
     });
   }
 
-  _openTransactionFormModal(BuildContext context) {
+  void _openTransactionFormModal(BuildContext context) {
     showModalBottomSheet(
         context: context,
         builder: (_) {

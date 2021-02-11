@@ -20,7 +20,7 @@ class DatabaseHelper {
     return _database;
   }
 
-  _initDatabase() async {
+  Future<Database> _initDatabase() async {
     var path = join(await getDatabasesPath(), _databaseName);
     return await openDatabase(path,
         version: _databaseVersion, onCreate: _onCreate);
@@ -65,6 +65,6 @@ class DatabaseHelper {
 
   Future<void> clearTable(String table) async {
     var db = await instance.database;
-    return await db.rawQuery("DELETE FROM $table");
+    return await db.rawQuery('DELETE FROM $table');
   }
 }

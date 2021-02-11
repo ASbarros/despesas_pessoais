@@ -15,7 +15,7 @@ class _CategoryFormState extends State<CategoryForm> {
   final _titleController = TextEditingController();
   Category category = Category(title: null);
 
-  _submitForm() {
+  void _submitForm() {
     final title = _titleController.text;
 
     if (title.isEmpty) {

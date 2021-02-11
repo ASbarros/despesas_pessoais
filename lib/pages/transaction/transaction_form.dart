@@ -23,7 +23,7 @@ class _TransactionFormState extends State<TransactionForm> {
 
   DateTime _selectedDate = DateTime.now();
 
-  _submitForm() {
+  void _submitForm() {
     final title = _titleController.text;
     final value = double.tryParse(_valueController.text) ?? 0.0;
     if (title.isEmpty || value <= 0 || _selectedDate == null) {
@@ -32,7 +32,7 @@ class _TransactionFormState extends State<TransactionForm> {
     widget.onSubmit(title, value, _selectedDate, _categories[0]);
   }
 
-  _showDatePicker() {
+  void _showDatePicker() {
     showDatePicker(
       context: context,
       initialDate: DateTime.now(),

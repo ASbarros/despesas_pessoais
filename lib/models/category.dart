@@ -41,7 +41,7 @@ class Category extends ObjectBase {
     final categories = <Category>[];
     final values =
         await DatabaseHelper.instance.getAll(Category(title: null).table);
-    values.map((element) {
+    values.forEach((element) {
       categories.add(Category.fromMap(element));
     });
     return categories;

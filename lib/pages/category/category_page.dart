@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../database/database_helper.dart';
 import '../../models/category.dart';
 import 'category_form.dart';
 
@@ -14,17 +13,14 @@ class _CategoryPageState extends State<CategoryPage> {
   @override
   void initState() {
     super.initState();
-    DatabaseHelper.instance.getAll('categories').then((value) {
-      // ignore: avoid_function_literals_in_foreach_calls
-      value.forEach((element) {
-        setState(() {
-          _categories.add(Category.fromMap(element));
-        });
+    Category.getAll().then((value) {
+      setState(() {
+        _categories.addAll(value);
       });
     }).catchError(print);
   }
 
-  _openCategoryFormModal(BuildContext context, [int id]) {
+  void _openCategoryFormModal(BuildContext context, [int id]) {
     showModalBottomSheet(
         context: context,
         builder: (_) {
@@ -32,7 +28,7 @@ class _CategoryPageState extends State<CategoryPage> {
         });
   }
 
-  _removeTransaction(Category obj) {
+  void _removeTransaction(Category obj) {
     setState(() {
       _categories.remove(obj);
       obj.delete();
@@ -40,10 +36,11 @@ class _CategoryPageState extends State<CategoryPage> {
   }
 
   Future<Null> _refresh() async {
-    Category.getAll().then((value) {
-      _categories.clear();
-      _categories.addAll(value);
-    }).catchError(print);
+    final list = await Category.getAll();
+    _categories.clear();
+    setState(() {
+      _categories.addAll(list);
+    });
   }
 
   @override
@@ -59,6 +56,10 @@ class _CategoryPageState extends State<CategoryPage> {
               ),
               onPressed: () => _openCategoryFormModal(context))
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _refresh,
+        child: Icon(Icons.refresh),
       ),
       body: RefreshIndicator(
         onRefresh: _refresh,
