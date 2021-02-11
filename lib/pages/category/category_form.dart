@@ -40,8 +40,7 @@ class _CategoryFormState extends State<CategoryForm> {
           category = value;
           _titleController.text = value.title;
         });
-      }).catchError(print);
-      ;
+      }).catchError(debugPrint);
     }
   }
 
@@ -55,10 +54,10 @@ class _CategoryFormState extends State<CategoryForm> {
           children: [
             TextField(
               controller: _titleController,
-              decoration: InputDecoration(labelText: 'Título'),
+              decoration: const InputDecoration(labelText: 'Título'),
               onSubmitted: (_) => _submitForm(),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -66,7 +65,7 @@ class _CategoryFormState extends State<CategoryForm> {
                   onPressed: _submitForm,
                   color: Theme.of(context).primaryColor,
                   textColor: Theme.of(context).textTheme.button.color,
-                  child: Text('Nova categoria'),
+                  child: const Text('Nova categoria'),
                 ),
               ],
             )

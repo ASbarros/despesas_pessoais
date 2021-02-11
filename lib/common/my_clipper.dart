@@ -5,7 +5,7 @@ class MyClipper extends CustomClipper<Path> {
   MyClipper({this.size});
   @override
   Path getClip(Size size) {
-    var p = Path();
+    final p = Path();
 
     p.lineTo(0, size.height);
     p.lineTo(size.width, size.height);

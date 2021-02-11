@@ -25,14 +25,14 @@ class _MyHomePageState extends State<MyHomePage> {
         setState(() {
           _transactions.addAll(list);
         });
-      }).catchError(print);
+      }).catchError(debugPrint);
     });
   }
 
   List<Transaction> get _recentTransactions {
     return _transactions
-        .where(
-            (tr) => tr.date.isAfter(DateTime.now().subtract(Duration(days: 7))))
+        .where((tr) =>
+            tr.date.isAfter(DateTime.now().subtract(const Duration(days: 7))))
         .toList();
   }
 
@@ -69,11 +69,11 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Despesas Pessoais'),
+        title: const Text('Despesas Pessoais'),
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(Icons.add, size: 30),
+            icon: const Icon(Icons.add, size: 30),
             onPressed: () => _openTransactionFormModal(context),
           ),
         ],

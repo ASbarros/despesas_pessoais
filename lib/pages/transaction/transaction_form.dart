@@ -8,7 +8,7 @@ import '../../models/category.dart';
 class TransactionForm extends StatefulWidget {
   final void Function(String, double, DateTime, Category) onSubmit;
 
-  TransactionForm({Key key, @required this.onSubmit}) : super(key: key);
+  const TransactionForm({Key key, @required this.onSubmit}) : super(key: key);
 
   @override
   _TransactionFormState createState() => _TransactionFormState();
@@ -59,7 +59,7 @@ class _TransactionFormState extends State<TransactionForm> {
           _categories.add(Category.fromMap(element));
         });
       });
-    }).catchError(print);
+    }).catchError(debugPrint);
   }
 
   @override
@@ -72,25 +72,25 @@ class _TransactionFormState extends State<TransactionForm> {
           children: [
             TextField(
               controller: _titleController,
-              decoration: InputDecoration(labelText: 'Título'),
+              decoration: const InputDecoration(labelText: 'Título'),
             ),
             TextField(
               controller: _valueController,
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
-              decoration: InputDecoration(labelText: 'Valor (R\$)'),
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
+              decoration: const InputDecoration(labelText: 'Valor (R\$)'),
               onSubmitted: (_) => _submitForm(),
             ),
             Row(
               children: [
-                Expanded(flex: 3, child: Text('Categoria')),
+                const Expanded(flex: 3, child: Text('Categoria')),
                 Expanded(
                   flex: 5,
                   child: DropdownButton<int>(
                     value: dropdownValue,
-                    icon: Icon(Icons.arrow_drop_down),
-                    iconSize: 24,
+                    icon: const Icon(Icons.arrow_drop_down),
                     elevation: 16,
-                    style: TextStyle(color: Colors.deepPurple),
+                    style: const TextStyle(color: Colors.deepPurple),
                     underline: Container(
                       height: 2,
                       color: Colors.deepPurpleAccent,
@@ -123,7 +123,7 @@ class _TransactionFormState extends State<TransactionForm> {
                   child: FlatButton(
                     textColor: Theme.of(context).primaryColor,
                     onPressed: _showDatePicker,
-                    child: Text(
+                    child: const Text(
                       'Selecionar Data',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
@@ -131,7 +131,7 @@ class _TransactionFormState extends State<TransactionForm> {
                 )
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -139,7 +139,7 @@ class _TransactionFormState extends State<TransactionForm> {
                   onPressed: _submitForm,
                   color: Theme.of(context).primaryColor,
                   textColor: Theme.of(context).textTheme.button.color,
-                  child: Text('Nova transação'),
+                  child: const Text('Nova transação'),
                 ),
               ],
             )

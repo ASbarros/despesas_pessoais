@@ -10,7 +10,7 @@ class MyDrawer extends StatelessWidget {
       child: ListView(
         children: [
           UserAccountsDrawerHeader(
-            accountName: Text(
+            accountName: const Text(
               'Menu',
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
@@ -21,7 +21,7 @@ class MyDrawer extends StatelessWidget {
                       .image,
             ),
           ),
-          DrawerTile(
+          const DrawerTile(
             iconData: Icons.home,
             title: 'Início',
           ),
@@ -38,7 +38,7 @@ class MyDrawer extends StatelessWidget {
               );
             },
           ),
-          DrawerTile(
+          const DrawerTile(
             iconData: Icons.check,
             title: 'Sobre',
           ),

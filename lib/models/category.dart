@@ -19,8 +19,8 @@ class Category extends ObjectBase {
     if (map == null) return null;
 
     return Category(
-      id: map['id'],
-      title: map['title'],
+      id: map['id'] as int,
+      title: map['title'] as String,
     );
   }
 
@@ -29,34 +29,37 @@ class Category extends ObjectBase {
 
   @override
   Future<int> insert() async {
-    return await DatabaseHelper.instance.insert(this);
+    return DatabaseHelper.instance.insert(this);
   }
 
   @override
   Future<int> update() async {
-    return await DatabaseHelper.instance.update(this, id);
+    return DatabaseHelper.instance.update(this, id);
   }
 
   static Future<List<Category>> getAll() async {
     final categories = <Category>[];
     final values =
         await DatabaseHelper.instance.getAll(Category(title: null).table);
-    values.forEach((element) {
-      categories.add(Category.fromMap(element));
-    });
+    for (final item in values) {
+      categories.add(Category.fromMap(item));
+    }
     return categories;
   }
 
-  static Future<Category> getById(int id) async {
+  static Future<Category> getById(int id) async => Category.fromMap(
+      await DatabaseHelper.instance.getById(Category(title: null).table, id));
+
+  /* static Future<Category> getById(int id) async {
     var category = Category(title: null);
-    Map<String, Object> map =
+    final Map<String, Object> map =
         await DatabaseHelper.instance.getById(category.table, id);
     category = Category.fromMap(map);
     return category;
-  }
+  } */
 
   @override
   Future<int> delete() async {
-    return await DatabaseHelper.instance.delete(id, table);
+    return DatabaseHelper.instance.delete(id, table);
   }
 }

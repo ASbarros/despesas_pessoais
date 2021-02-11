@@ -17,7 +17,7 @@ class _CategoryPageState extends State<CategoryPage> {
       setState(() {
         _categories.addAll(value);
       });
-    }).catchError(print);
+    }).catchError(debugPrint);
   }
 
   void _openCategoryFormModal(BuildContext context, [int id]) {
@@ -35,7 +35,7 @@ class _CategoryPageState extends State<CategoryPage> {
     });
   }
 
-  Future<Null> _refresh() async {
+  Future<void> _refresh() async {
     final list = await Category.getAll();
     _categories.clear();
     setState(() {
@@ -47,10 +47,10 @@ class _CategoryPageState extends State<CategoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Categorias'),
+        title: const Text('Categorias'),
         actions: [
           IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.add,
                 size: 30,
               ),
@@ -59,7 +59,7 @@ class _CategoryPageState extends State<CategoryPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _refresh,
-        child: Icon(Icons.refresh),
+        child: const Icon(Icons.refresh),
       ),
       body: RefreshIndicator(
         onRefresh: _refresh,
@@ -67,12 +67,12 @@ class _CategoryPageState extends State<CategoryPage> {
           child: _categories.isEmpty
               ? Column(
                   children: [
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Text(
                       'Nenhuma Transação cadastrada!',
                       style: Theme.of(context).textTheme.headline6,
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Container(
                       height: 200,
                       child: Image.asset('assets/images/waiting.png',
@@ -87,7 +87,8 @@ class _CategoryPageState extends State<CategoryPage> {
                     final item = _categories[index];
                     return Card(
                       elevation: 6,
-                      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 5),
                       child: ListTile(
                         onTap: () => _openCategoryFormModal(context, item.id),
                         leading: CircleAvatar(
@@ -96,8 +97,8 @@ class _CategoryPageState extends State<CategoryPage> {
                             padding: const EdgeInsets.all(6),
                             child: FittedBox(
                               child: Text('${index + 1}',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold)),
                             ),
                           ),
                         ),
@@ -107,7 +108,7 @@ class _CategoryPageState extends State<CategoryPage> {
                         ),
                         trailing: IconButton(
                           color: Theme.of(context).errorColor,
-                          icon: Icon(Icons.delete),
+                          icon: const Icon(Icons.delete),
                           onPressed: () => _removeTransaction(item),
                         ),
                       ),

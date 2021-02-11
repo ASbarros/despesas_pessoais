@@ -34,11 +34,12 @@ class Chart extends StatelessWidget with PreferredSizeWidget {
   }
 
   double get _weekTotalValue {
-    return groupedTransactions.fold(0.0, (sum, tr) => sum + tr['value']);
+    return groupedTransactions.fold(
+        0.0, (sum, tr) => sum + (tr['value'] as double));
   }
 
   @override
-  Size get preferredSize => Size(double.infinity, 250);
+  Size get preferredSize => const Size(double.infinity, 250);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +47,7 @@ class Chart extends StatelessWidget with PreferredSizeWidget {
       clipper: MyClipper(size: 58),
       child: Card(
         elevation: 6,
-        margin: EdgeInsets.all(20),
+        margin: const EdgeInsets.all(20),
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Row(
@@ -55,8 +56,8 @@ class Chart extends StatelessWidget with PreferredSizeWidget {
                 .map((tr) => Flexible(
                       fit: FlexFit.tight,
                       child: ChartBar(
-                        label: tr['day'],
-                        value: tr['value'],
+                        label: tr['day'] as String,
+                        value: tr['value'] as double,
                         percentage: _weekTotalValue == 0
                             ? 0
                             : (tr['value'] as double) / _weekTotalValue,

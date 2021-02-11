@@ -36,28 +36,28 @@ class Transaction extends ObjectBase {
     if (map == null) return null;
 
     return Transaction(
-      id: map['id'],
-      title: map['title'],
-      value: double.parse(map['value']),
-      date: DateTime.fromMillisecondsSinceEpoch(map['date']),
-      category: map['category'],
+      id: map['id'] as int,
+      title: map['title'] as String,
+      value: map['value'] as double,
+      date: DateTime.fromMillisecondsSinceEpoch(map['date'] as int),
+      category: map['category'] as int,
     );
   }
 
   factory Transaction.fromJson(String source) =>
-      Transaction.fromMap(json.decode(source));
+      Transaction.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String get table => ExpensesTable().table;
 
   @override
   Future<int> insert() async {
-    return await DatabaseHelper.instance.insert(this);
+    return DatabaseHelper.instance.insert(this);
   }
 
   @override
   Future<int> update() async {
-    return await DatabaseHelper.instance.update(this, id);
+    return DatabaseHelper.instance.update(this, id);
   }
 
   static Future<List<Transaction>> getAll() async {
@@ -65,8 +65,8 @@ class Transaction extends ObjectBase {
     final values = await DatabaseHelper.instance.getAll(
         Transaction(category: null, date: null, title: null, value: null)
             .table);
-    for (var item in values) {
-      await transactions.add(Transaction.fromMap(item));
+    for (final item in values) {
+      transactions.add(Transaction.fromMap(item));
     }
 
     return transactions;
@@ -74,6 +74,6 @@ class Transaction extends ObjectBase {
 
   @override
   Future<int> delete() async {
-    return await DatabaseHelper.instance.delete(id, table);
+    return DatabaseHelper.instance.delete(id, table);
   }
 }

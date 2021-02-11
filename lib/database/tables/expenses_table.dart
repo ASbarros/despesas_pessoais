@@ -6,7 +6,8 @@ class ExpensesTable {
   final _columnDate = 'date';
   final _columnIdCategory = 'category';
 
-  String get query => '''CREATE TABLE $table (
+  String get query => '''
+    CREATE TABLE $table (
       $_columnId INTEGER PRIMARY KEY AUTOINCREMENT,
       $_columnTitle TEXT NOT NULL,
       $_columnValue TEXT NOT NULL,
