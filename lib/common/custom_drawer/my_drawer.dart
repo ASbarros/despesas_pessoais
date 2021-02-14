@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../pages/about/about.dart';
 import '../../pages/category/category_page.dart';
 import 'drawer_tile.dart';
 
@@ -38,9 +39,18 @@ class MyDrawer extends StatelessWidget {
               );
             },
           ),
-          const DrawerTile(
+          DrawerTile(
             iconData: Icons.check,
             title: 'Sobre',
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (ctx) => About(),
+                ),
+              );
+            },
           ),
         ],
       ),
