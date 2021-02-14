@@ -50,14 +50,6 @@ class Category extends ObjectBase {
   static Future<Category> getById(int id) async => Category.fromMap(
       await DatabaseHelper.instance.getById(Category(title: null).table, id));
 
-  /* static Future<Category> getById(int id) async {
-    var category = Category(title: null);
-    final Map<String, Object> map =
-        await DatabaseHelper.instance.getById(category.table, id);
-    category = Category.fromMap(map);
-    return category;
-  } */
-
   @override
   Future<int> delete() async {
     return DatabaseHelper.instance.delete(id, table);

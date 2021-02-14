@@ -40,7 +40,7 @@ class _CategoryFormState extends State<CategoryForm> {
           category = value;
           _titleController.text = value.title;
         });
-      }).catchError(debugPrint);
+      }).catchError(print);
     }
   }
 
