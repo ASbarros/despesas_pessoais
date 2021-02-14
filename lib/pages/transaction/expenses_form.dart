@@ -29,7 +29,8 @@ class _ExpensesFormState extends State<ExpensesForm> {
     if (title.isEmpty || value <= 0 || _selectedDate == null) {
       return;
     }
-    widget.onSubmit(title, value, _selectedDate, _categories[0]);
+    widget.onSubmit(
+        title, value, _selectedDate, _categories[dropdownValue - 1]);
   }
 
   void _showDatePicker() {
