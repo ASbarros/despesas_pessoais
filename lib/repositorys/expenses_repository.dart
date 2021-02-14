@@ -37,8 +37,8 @@ class ExpensesRepository {
     final list = await _database.getAll(ExpensesTable.table);
 
     for (final item in list) {
-      final category = ExpensesModel.fromMap(item);
-      if (category.id == idCategory) expenses.add(category);
+      final expense = ExpensesModel.fromMap(item);
+      if (expense.category == idCategory) expenses.add(expense);
     }
 
     return expenses;

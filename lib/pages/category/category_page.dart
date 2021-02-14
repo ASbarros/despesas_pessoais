@@ -14,6 +14,8 @@ class _CategoryPageState extends State<CategoryPage> {
   final _categories = <CategoryModel>[];
   final _repository = CategoryRepository();
   final _repositoryExpenses = ExpensesRepository();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     super.initState();
@@ -35,13 +37,24 @@ class _CategoryPageState extends State<CategoryPage> {
         });
   }
 
-  void _removeCategory(CategoryModel obj) async {
+  void _removeCategory(
+      {@required CategoryModel obj, @required BuildContext context}) async {
     final expenses = await _repositoryExpenses.getByIdCategory(obj.id);
     if (expenses.isEmpty) {
       setState(() {
         _categories.remove(obj);
         _repository.delete(obj.id);
       });
+    } else {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        action: SnackBarAction(
+          label: 'OK',
+          onPressed: () {},
+        ),
+        backgroundColor: Colors.red,
+        content: Text('Categoria com despesas associadas!'),
+        duration: Duration(seconds: 5),
+      ));
     }
   }
 
@@ -56,6 +69,7 @@ class _CategoryPageState extends State<CategoryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: const Text('Categorias'),
         actions: [
@@ -119,7 +133,8 @@ class _CategoryPageState extends State<CategoryPage> {
                         trailing: IconButton(
                           color: Theme.of(context).errorColor,
                           icon: const Icon(Icons.delete),
-                          onPressed: () => _removeCategory(item),
+                          onPressed: () =>
+                              _removeCategory(obj: item, context: context),
                         ),
                       ),
                     );
