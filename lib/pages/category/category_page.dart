@@ -17,7 +17,7 @@ class _CategoryPageState extends State<CategoryPage> {
       setState(() {
         _categories.addAll(value);
       });
-    }).catchError(debugPrint);
+    }).catchError(print);
   }
 
   void _openCategoryFormModal(BuildContext context, [int id]) {

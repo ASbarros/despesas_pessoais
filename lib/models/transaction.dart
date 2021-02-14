@@ -38,7 +38,7 @@ class Transaction extends ObjectBase {
     return Transaction(
       id: map['id'] as int,
       title: map['title'] as String,
-      value: map['value'] as double,
+      value: double.tryParse(map['value']) ?? 0.0,
       date: DateTime.fromMillisecondsSinceEpoch(map['date'] as int),
       category: map['category'] as int,
     );

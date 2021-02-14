@@ -25,7 +25,7 @@ class _MyHomePageState extends State<MyHomePage> {
         setState(() {
           _transactions.addAll(list);
         });
-      }).catchError(debugPrint);
+      }).catchError(print);
     });
   }
 
