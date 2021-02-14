@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../common/custom_drawer/my_drawer.dart';
 import '../components/chart.dart';
-import '../database/database_helper.dart';
-import '../database/tables/expenses_table.dart';
 import '../models/category_model.dart';
 import '../models/expenses_model.dart';
 import 'transaction/expenses_form.dart';
@@ -55,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _removeTransaction(int id) {
     setState(() {
       _transactions.removeWhere((tr) => tr.id == id);
-      DatabaseHelper.instance.delete(id, ExpensesTable.table);
+      _repositoryExpenses.delete(id);
     });
   }
 

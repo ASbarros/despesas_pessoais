@@ -1,4 +1,5 @@
 import 'package:financas_pessoais/repositorys/category_repository.dart';
+import 'package:financas_pessoais/repositorys/expenses_repository.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/category_model.dart';
@@ -12,6 +13,7 @@ class CategoryPage extends StatefulWidget {
 class _CategoryPageState extends State<CategoryPage> {
   final _categories = <CategoryModel>[];
   final _repository = CategoryRepository();
+  final _repositoryExpenses = ExpensesRepository();
   @override
   void initState() {
     super.initState();
@@ -33,11 +35,14 @@ class _CategoryPageState extends State<CategoryPage> {
         });
   }
 
-  void _removeTransaction(CategoryModel obj) {
-    setState(() {
-      _categories.remove(obj);
-      _repository.delete(obj.id);
-    });
+  void _removeCategory(CategoryModel obj) async {
+    final expenses = await _repositoryExpenses.getByIdCategory(obj.id);
+    if (expenses.isEmpty) {
+      setState(() {
+        _categories.remove(obj);
+        _repository.delete(obj.id);
+      });
+    }
   }
 
   Future<void> _refresh() async {
@@ -114,7 +119,7 @@ class _CategoryPageState extends State<CategoryPage> {
                         trailing: IconButton(
                           color: Theme.of(context).errorColor,
                           icon: const Icon(Icons.delete),
-                          onPressed: () => _removeTransaction(item),
+                          onPressed: () => _removeCategory(item),
                         ),
                       ),
                     );

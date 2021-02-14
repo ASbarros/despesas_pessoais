@@ -87,7 +87,7 @@ class _ExpensesFormState extends State<ExpensesForm> {
                 Expanded(
                   flex: 5,
                   child: DropdownButton<int>(
-                    value: dropdownValue,
+                    value: _categories.first.id,
                     icon: const Icon(Icons.arrow_drop_down),
                     elevation: 16,
                     style: const TextStyle(color: Colors.deepPurple),

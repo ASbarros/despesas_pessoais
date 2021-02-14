@@ -31,4 +31,16 @@ class ExpensesRepository {
   Future<int> insert(ExpensesModel obj) async {
     return _database.insert(obj);
   }
+
+  Future<List<ExpensesModel>> getByIdCategory(int idCategory) async {
+    final expenses = <ExpensesModel>[];
+    final list = await _database.getAll(ExpensesTable.table);
+
+    for (final item in list) {
+      final category = ExpensesModel.fromMap(item);
+      if (category.id == idCategory) expenses.add(category);
+    }
+
+    return expenses;
+  }
 }
