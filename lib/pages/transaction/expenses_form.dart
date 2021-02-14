@@ -1,25 +1,25 @@
+import 'package:financas_pessoais/repositorys/category_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../database/database_helper.dart';
-import '../../database/tables/categories_table.dart';
-import '../../models/category.dart';
+import '../../models/category_model.dart';
 
-class TransactionForm extends StatefulWidget {
-  final void Function(String, double, DateTime, Category) onSubmit;
+class ExpensesForm extends StatefulWidget {
+  final void Function(String, double, DateTime, CategoryModel) onSubmit;
 
-  const TransactionForm({Key key, @required this.onSubmit}) : super(key: key);
+  const ExpensesForm({Key key, @required this.onSubmit}) : super(key: key);
 
   @override
-  _TransactionFormState createState() => _TransactionFormState();
+  _ExpensesFormState createState() => _ExpensesFormState();
 }
 
-class _TransactionFormState extends State<TransactionForm> {
+class _ExpensesFormState extends State<ExpensesForm> {
   final _titleController = TextEditingController();
   final _valueController = TextEditingController();
+  final _repositoryCategory = CategoryRepository();
 
   int dropdownValue = 1;
-  final _categories = <Category>[];
+  final _categories = <CategoryModel>[];
 
   DateTime _selectedDate = DateTime.now();
 
@@ -51,15 +51,14 @@ class _TransactionFormState extends State<TransactionForm> {
   @override
   void initState() {
     super.initState();
-    DatabaseHelper.instance.getAll(CategoriesTable().table).then((value) {
-      _categories.clear();
-      // ignore: avoid_function_literals_in_foreach_calls
-      value.forEach((element) {
-        setState(() {
-          _categories.add(Category.fromMap(element));
-        });
-      });
-    }).catchError(debugPrint);
+    init();
+  }
+
+  void init() async {
+    final list = await _repositoryCategory.fetchCategories();
+    setState(() {
+      _categories.addAll(list);
+    });
   }
 
   @override

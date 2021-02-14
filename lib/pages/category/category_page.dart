@@ -1,6 +1,7 @@
+import 'package:financas_pessoais/repositorys/category_repository.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/category.dart';
+import '../../models/category_model.dart';
 import 'category_form.dart';
 
 class CategoryPage extends StatefulWidget {
@@ -9,15 +10,19 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage> {
-  final _categories = <Category>[];
+  final _categories = <CategoryModel>[];
+  final _repository = CategoryRepository();
   @override
   void initState() {
     super.initState();
-    Category.getAll().then((value) {
-      setState(() {
-        _categories.addAll(value);
-      });
-    }).catchError(print);
+    init();
+  }
+
+  void init() async {
+    final list = await _repository.fetchCategories();
+    setState(() {
+      _categories.addAll(list);
+    });
   }
 
   void _openCategoryFormModal(BuildContext context, [int id]) {
@@ -28,15 +33,15 @@ class _CategoryPageState extends State<CategoryPage> {
         });
   }
 
-  void _removeTransaction(Category obj) {
+  void _removeTransaction(CategoryModel obj) {
     setState(() {
       _categories.remove(obj);
-      obj.delete();
+      _repository.delete(obj.id);
     });
   }
 
   Future<void> _refresh() async {
-    final list = await Category.getAll();
+    final list = await _repository.fetchCategories();
     _categories.clear();
     setState(() {
       _categories.addAll(list);

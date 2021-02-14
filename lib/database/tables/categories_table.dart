@@ -1,5 +1,5 @@
 class CategoriesTable {
-  String get table => 'categories';
+  static String get table => 'categories';
   final _columnId = 'id';
   final _columnTitle = 'title';
 

@@ -1,7 +1,7 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart' hide Transaction;
 
-import '../models/object_base.dart';
+import '../models/model_base.dart';
 import 'tables/categories_table.dart';
 import 'tables/expenses_table.dart';
 
@@ -34,13 +34,13 @@ class DatabaseHelper {
     await db.execute(ExpensesTable().query);
   }
 
-  Future<int> insert(ObjectBase obj) async {
+  Future<int> insert(ModelBase obj) async {
     final db = await instance.database;
     final res = await db.insert(obj.table, obj.toMap());
     return res;
   }
 
-  Future<int> update(ObjectBase obj, int id) async {
+  Future<int> update(ModelBase obj, int id) async {
     final db = await instance.database;
     final res = await db
         .update(obj.table, obj.toMap(), where: 'id = ?', whereArgs: [id]);

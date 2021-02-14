@@ -1,7 +1,7 @@
+import 'package:financas_pessoais/repositorys/category_repository.dart';
 import 'package:flutter/material.dart';
 
-import '../../database/database_helper.dart';
-import '../../models/category.dart';
+import '../../models/category_model.dart';
 
 class CategoryForm extends StatefulWidget {
   final int id;
@@ -13,7 +13,8 @@ class CategoryForm extends StatefulWidget {
 
 class _CategoryFormState extends State<CategoryForm> {
   final _titleController = TextEditingController();
-  Category category = Category(title: null);
+  final _repository = CategoryRepository();
+  CategoryModel category = CategoryModel(title: null);
 
   void _submitForm() {
     final title = _titleController.text;
@@ -24,9 +25,9 @@ class _CategoryFormState extends State<CategoryForm> {
 
     category.title = title;
     if (widget.id != null && widget.id > 0) {
-      DatabaseHelper.instance.update(category, widget.id);
+      _repository.update(category);
     } else {
-      category.insert();
+      _repository.insert(category);
     }
     Navigator.of(context).pop();
   }
@@ -35,7 +36,7 @@ class _CategoryFormState extends State<CategoryForm> {
   void initState() {
     super.initState();
     if (widget.id != null && widget.id > 0) {
-      Category.getById(widget.id).then((value) {
+      _repository.getById(widget.id).then((value) {
         setState(() {
           category = value;
           _titleController.text = value.title;

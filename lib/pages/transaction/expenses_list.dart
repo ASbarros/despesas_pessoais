@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../models/transaction.dart';
+import '../../models/expenses_model.dart';
 
-class TransactionList extends StatelessWidget {
-  final List<Transaction> transactions;
+class ExpensesList extends StatelessWidget {
+  final List<ExpensesModel> transactions;
   final void Function(int) onRemove;
 
-  const TransactionList(
+  const ExpensesList(
       {Key key, @required this.transactions, @required this.onRemove})
       : super(key: key);
   @override

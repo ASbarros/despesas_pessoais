@@ -1,5 +1,5 @@
 class ExpensesTable {
-  String get table => 'expences';
+  static String get table => 'expences';
   final _columnId = 'id';
   final _columnTitle = 'title';
   final _columnValue = 'value';

@@ -1,13 +1,14 @@
+import 'package:financas_pessoais/repositorys/expenses_repository.dart';
 import 'package:flutter/material.dart';
 
 import '../common/custom_drawer/my_drawer.dart';
 import '../components/chart.dart';
 import '../database/database_helper.dart';
 import '../database/tables/expenses_table.dart';
-import '../models/category.dart';
-import '../models/transaction.dart';
-import 'transaction/transaction_form.dart';
-import 'transaction/transaction_list.dart';
+import '../models/category_model.dart';
+import '../models/expenses_model.dart';
+import 'transaction/expenses_form.dart';
+import 'transaction/expenses_list.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -15,13 +16,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _transactions = [];
+  final List<ExpensesModel> _transactions = [];
+  final _repositoryExpenses = ExpensesRepository();
 
   @override
   void initState() {
     super.initState();
     setState(() {
-      Transaction.getAll().then((list) {
+      _repositoryExpenses.fetchExpenses().then((list) {
         setState(() {
           _transactions.addAll(list);
         });
@@ -29,7 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  List<Transaction> get _recentTransactions {
+  List<ExpensesModel> get _recentTransactions {
     return _transactions
         .where((tr) =>
             tr.date.isAfter(DateTime.now().subtract(const Duration(days: 7))))
@@ -37,8 +39,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _addTransaction(
-      String title, double value, DateTime date, Category category) {
-    final newTransaction = Transaction(
+      String title, double value, DateTime date, CategoryModel category) {
+    final newTransaction = ExpensesModel(
         title: title, value: value, date: date, category: category.id);
 
     DatabaseHelper.instance.insert(newTransaction);
@@ -53,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _removeTransaction(int id) {
     setState(() {
       _transactions.removeWhere((tr) => tr.id == id);
-      DatabaseHelper.instance.delete(id, ExpensesTable().table);
+      DatabaseHelper.instance.delete(id, ExpensesTable.table);
     });
   }
 
@@ -61,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
     showModalBottomSheet(
         context: context,
         builder: (_) {
-          return TransactionForm(onSubmit: _addTransaction);
+          return ExpensesForm(onSubmit: _addTransaction);
         });
   }
 
@@ -84,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           Chart(recentTransactions: _recentTransactions),
           Flexible(
-            child: TransactionList(
+            child: ExpensesList(
                 transactions: _transactions, onRemove: _removeTransaction),
           ),
         ],

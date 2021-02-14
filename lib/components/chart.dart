@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../common/my_clipper.dart';
-import '../models/transaction.dart';
+import '../models/expenses_model.dart';
 import 'chart_bar.dart';
 
 // ignore: prefer_mixin
 class Chart extends StatelessWidget with PreferredSizeWidget {
-  final List<Transaction> recentTransactions;
+  final List<ExpensesModel> recentTransactions;
 
   const Chart({Key key, @required this.recentTransactions}) : super(key: key);
 
