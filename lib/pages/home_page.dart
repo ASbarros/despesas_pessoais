@@ -43,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final newTransaction = ExpensesModel(
         title: title, value: value, date: date, category: category.id);
 
-    DatabaseHelper.instance.insert(newTransaction);
+    _repositoryExpenses.insert(newTransaction);
 
     setState(() {
       _transactions.add(newTransaction);
