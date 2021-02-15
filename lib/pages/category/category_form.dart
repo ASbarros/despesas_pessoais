@@ -1,12 +1,14 @@
 import 'package:financas_pessoais/repositorys/category_repository.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/category_model.dart';
 
 class CategoryForm extends StatefulWidget {
   final int id;
+  final void Function(CategoryModel) onSaved;
 
-  const CategoryForm({Key key, this.id}) : super(key: key);
+  const CategoryForm({Key key, this.id, this.onSaved}) : super(key: key);
   @override
   _CategoryFormState createState() => _CategoryFormState();
 }
@@ -16,7 +18,7 @@ class _CategoryFormState extends State<CategoryForm> {
   final _repository = CategoryRepository();
   CategoryModel category = CategoryModel(title: null);
 
-  void _submitForm() {
+  void _submitForm() async {
     final title = _titleController.text;
 
     if (title.isEmpty) {
@@ -25,11 +27,12 @@ class _CategoryFormState extends State<CategoryForm> {
 
     category.title = title;
     if (widget.id != null && widget.id > 0) {
-      _repository.update(category);
+      await _repository.update(category);
     } else {
-      _repository.insert(category);
+      category.id = await _repository.insert(category);
     }
     Navigator.of(context).pop();
+    widget.onSaved(category);
   }
 
   @override

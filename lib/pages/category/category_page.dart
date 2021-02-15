@@ -1,5 +1,6 @@
 import 'package:financas_pessoais/repositorys/category_repository.dart';
 import 'package:financas_pessoais/repositorys/expenses_repository.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/category_model.dart';
@@ -33,7 +34,16 @@ class _CategoryPageState extends State<CategoryPage> {
     showModalBottomSheet(
         context: context,
         builder: (_) {
-          return CategoryForm(id: id);
+          return CategoryForm(
+            id: id,
+            onSaved: (categoryModel) {
+              setState(() {
+                _categories
+                    .removeWhere((element) => element.id == categoryModel.id);
+                _categories.add(categoryModel);
+              });
+            },
+          );
         });
   }
 
@@ -58,14 +68,6 @@ class _CategoryPageState extends State<CategoryPage> {
     }
   }
 
-  Future<void> _refresh() async {
-    final list = await _repository.fetchCategories();
-    _categories.clear();
-    setState(() {
-      _categories.addAll(list);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,66 +83,59 @@ class _CategoryPageState extends State<CategoryPage> {
               onPressed: () => _openCategoryFormModal(context))
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _refresh,
-        child: const Icon(Icons.refresh),
-      ),
-      body: RefreshIndicator(
-        onRefresh: _refresh,
-        child: Center(
-          child: _categories.isEmpty
-              ? Column(
-                  children: [
-                    const SizedBox(height: 20),
-                    Text(
-                      'Nenhuma Transação cadastrada!',
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
-                    const SizedBox(height: 20),
-                    Container(
-                      height: 200,
-                      child: Image.asset('assets/images/waiting.png',
-                          fit: BoxFit.cover),
-                    ),
-                  ],
-                )
-              : ListView.builder(
-                  itemCount: _categories.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    final item = _categories[index];
-                    return Card(
-                      elevation: 6,
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 5),
-                      child: ListTile(
-                        onTap: () => _openCategoryFormModal(context, item.id),
-                        leading: CircleAvatar(
-                          radius: 30,
-                          child: Padding(
-                            padding: const EdgeInsets.all(6),
-                            child: FittedBox(
-                              child: Text('${index + 1}',
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold)),
-                            ),
+      body: Center(
+        child: _categories.isEmpty
+            ? Column(
+                children: [
+                  const SizedBox(height: 20),
+                  Text(
+                    'Nenhuma Transação cadastrada!',
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  const SizedBox(height: 20),
+                  Container(
+                    height: 200,
+                    child: Image.asset('assets/images/waiting.png',
+                        fit: BoxFit.cover),
+                  ),
+                ],
+              )
+            : ListView.builder(
+                itemCount: _categories.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  final item = _categories[index];
+                  return Card(
+                    elevation: 6,
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+                    child: ListTile(
+                      onTap: () => _openCategoryFormModal(context, item.id),
+                      leading: CircleAvatar(
+                        radius: 30,
+                        child: Padding(
+                          padding: const EdgeInsets.all(6),
+                          child: FittedBox(
+                            child: Text('${index + 1}',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold)),
                           ),
                         ),
-                        title: Text(
-                          item.title,
-                          style: Theme.of(context).textTheme.headline6,
-                        ),
-                        trailing: IconButton(
-                          color: Theme.of(context).errorColor,
-                          icon: const Icon(Icons.delete),
-                          onPressed: () =>
-                              _removeCategory(obj: item, context: context),
-                        ),
                       ),
-                    );
-                  },
-                ),
-        ),
+                      title: Text(
+                        item.title,
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                      trailing: IconButton(
+                        color: Theme.of(context).errorColor,
+                        icon: const Icon(Icons.delete),
+                        onPressed: () =>
+                            _removeCategory(obj: item, context: context),
+                      ),
+                    ),
+                  );
+                },
+              ),
       ),
     );
   }
