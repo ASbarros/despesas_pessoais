@@ -1,5 +1,7 @@
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:financas_pessoais/repositorys/category_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 import '../../models/category_model.dart';
@@ -25,6 +27,7 @@ class _ExpensesFormState extends State<ExpensesForm> {
 
   void _submitForm() {
     final title = _titleController.text;
+    print(_valueController.text);
     final value = double.tryParse(_valueController.text) ?? 0.0;
     if (title.isEmpty || value <= 0 || _selectedDate == null) {
       return;
@@ -79,6 +82,10 @@ class _ExpensesFormState extends State<ExpensesForm> {
               keyboardType:
                   const TextInputType.numberWithOptions(decimal: true),
               decoration: const InputDecoration(labelText: 'Valor (R\$)'),
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+                RealInputFormatter(centavos: true),
+              ],
               onSubmitted: (_) => _submitForm(),
             ),
             Row(
