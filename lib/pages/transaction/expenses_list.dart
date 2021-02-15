@@ -17,7 +17,7 @@ class ExpensesList extends StatelessWidget {
         children: [
           const SizedBox(height: 20),
           Text(
-            'Nenhuma Transação cadastrada!',
+            'Nenhum Gasto cadastrado!',
             style: Theme.of(context).textTheme.headline6,
           ),
           const SizedBox(height: 20),
