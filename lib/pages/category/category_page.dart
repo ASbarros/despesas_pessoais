@@ -89,7 +89,7 @@ class _CategoryPageState extends State<CategoryPage> {
                 children: [
                   const SizedBox(height: 20),
                   Text(
-                    'Nenhuma Transação cadastrada!',
+                    'Nenhuma Categoria cadastrada!',
                     style: Theme.of(context).textTheme.headline6,
                   ),
                   const SizedBox(height: 20),
