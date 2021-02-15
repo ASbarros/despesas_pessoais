@@ -5,8 +5,8 @@ import '../common/custom_drawer/my_drawer.dart';
 import '../components/chart.dart';
 import '../models/category_model.dart';
 import '../models/expenses_model.dart';
-import 'transaction/expenses_form.dart';
-import 'transaction/expenses_list.dart';
+import 'expenses/expenses_form.dart';
+import 'expenses/expenses_list.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
