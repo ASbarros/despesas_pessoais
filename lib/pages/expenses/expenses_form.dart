@@ -27,8 +27,9 @@ class _ExpensesFormState extends State<ExpensesForm> {
 
   void _submitForm() {
     final title = _titleController.text;
-    print(_valueController.text);
-    final value = double.tryParse(_valueController.text) ?? 0.0;
+    final value = double.tryParse(
+            _valueController.text.replaceAll('.', '').replaceAll(',', '.')) ??
+        0.0;
     if (title.isEmpty || value <= 0 || _selectedDate == null) {
       return;
     }
@@ -146,7 +147,7 @@ class _ExpensesFormState extends State<ExpensesForm> {
                   onPressed: _submitForm,
                   color: Theme.of(context).primaryColor,
                   textColor: Theme.of(context).textTheme.button.color,
-                  child: const Text('Nova transação'),
+                  child: const Text('Salvar'),
                 ),
               ],
             )
