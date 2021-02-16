@@ -1,18 +1,34 @@
+import 'package:financas_pessoais/pages/expenses/expenses_form.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../models/expenses_model.dart';
 
-class ExpensesList extends StatelessWidget {
+class ExpensesList extends StatefulWidget {
   final List<ExpensesModel> transactions;
   final void Function(int) onRemove;
 
   const ExpensesList(
       {Key key, @required this.transactions, @required this.onRemove})
       : super(key: key);
+
+  @override
+  _ExpensesListState createState() => _ExpensesListState();
+}
+
+class _ExpensesListState extends State<ExpensesList> {
+  void _updateExpense(ExpensesModel obj) {
+    setState(() {
+      widget.transactions.removeWhere((element) => element.id == obj.id);
+      widget.transactions.add(obj);
+      widget.transactions.sort((a, b) => a.title.compareTo(b.title));
+    });
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (transactions.isEmpty) {
+    if (widget.transactions.isEmpty) {
       return Column(
         children: [
           const SizedBox(height: 20),
@@ -29,14 +45,21 @@ class ExpensesList extends StatelessWidget {
       );
     } else {
       return ListView.builder(
-        itemCount: transactions.length,
+        itemCount: widget.transactions.length,
         shrinkWrap: true,
         itemBuilder: (context, index) {
-          final tr = transactions[index];
+          final tr = widget.transactions[index];
           return Card(
             elevation: 6,
             margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
             child: ListTile(
+              onTap: () {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (_) {
+                      return ExpensesForm(onSubmit: _updateExpense, id: tr.id);
+                    });
+              },
               leading: CircleAvatar(
                 radius: 30,
                 child: Padding(
@@ -55,7 +78,7 @@ class ExpensesList extends StatelessWidget {
               trailing: IconButton(
                   color: Theme.of(context).errorColor,
                   icon: const Icon(Icons.delete),
-                  onPressed: () => onRemove(tr.id)),
+                  onPressed: () => widget.onRemove(tr.id)),
             ),
           );
         },

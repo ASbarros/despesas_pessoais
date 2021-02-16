@@ -1,5 +1,7 @@
 import 'package:brasil_fields/brasil_fields.dart';
+import 'package:financas_pessoais/models/expenses_model.dart';
 import 'package:financas_pessoais/repositorys/category_repository.dart';
+import 'package:financas_pessoais/repositorys/expenses_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -7,25 +9,29 @@ import 'package:intl/intl.dart';
 import '../../models/category_model.dart';
 
 class ExpensesForm extends StatefulWidget {
-  final void Function(String, double, DateTime, CategoryModel) onSubmit;
+  final void Function(ExpensesModel) onSubmit;
+  final int id;
 
-  const ExpensesForm({Key key, @required this.onSubmit}) : super(key: key);
+  const ExpensesForm({Key key, @required this.onSubmit, this.id})
+      : super(key: key);
 
   @override
   _ExpensesFormState createState() => _ExpensesFormState();
 }
 
 class _ExpensesFormState extends State<ExpensesForm> {
+  ExpensesModel _expensesModel;
   final _titleController = TextEditingController();
   final _valueController = TextEditingController();
   final _repositoryCategory = CategoryRepository();
+  final _repositoryExpense = ExpensesRepository();
 
-  int dropdownValue = 1;
+  int dropdownValue;
   final _categories = <CategoryModel>[];
 
   DateTime _selectedDate = DateTime.now();
 
-  void _submitForm() {
+  void _submitForm() async {
     final title = _titleController.text;
     final value = double.tryParse(
             _valueController.text.replaceAll('.', '').replaceAll(',', '.')) ??
@@ -33,14 +39,24 @@ class _ExpensesFormState extends State<ExpensesForm> {
     if (title.isEmpty || value <= 0 || _selectedDate == null) {
       return;
     }
-    widget.onSubmit(
-        title, value, _selectedDate, _categories[dropdownValue - 1]);
+    _expensesModel = ExpensesModel(
+        title: title,
+        value: value,
+        category: dropdownValue,
+        date: _selectedDate);
+    if (widget.id != null && widget.id > 0) {
+      _expensesModel.id = widget.id;
+      await _repositoryExpense.update(_expensesModel);
+    } else {
+      _expensesModel.id = await _repositoryExpense.insert(_expensesModel);
+    }
+    widget.onSubmit(_expensesModel);
   }
 
-  void _showDatePicker() {
+  void _showDatePicker([DateTime date]) {
     showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: date ?? DateTime.now(),
       firstDate: DateTime(2021),
       lastDate: DateTime.now(),
     ).then((pickedDate) {
@@ -61,6 +77,16 @@ class _ExpensesFormState extends State<ExpensesForm> {
 
   void init() async {
     final list = await _repositoryCategory.fetchCategories();
+    dropdownValue = list.first.id;
+
+    if (widget.id != null && widget.id > 0) {
+      _expensesModel = await _repositoryExpense.getById(widget.id);
+      _titleController.text = _expensesModel.title;
+      _valueController.text = _expensesModel.value.toString();
+      _selectedDate = _expensesModel.date;
+      dropdownValue = _expensesModel.category;
+    }
+
     setState(() {
       _categories.addAll(list);
     });
@@ -94,27 +120,35 @@ class _ExpensesFormState extends State<ExpensesForm> {
                 const Expanded(flex: 3, child: Text('Categoria')),
                 Expanded(
                   flex: 5,
-                  child: DropdownButton<int>(
-                    value: _categories.first.id,
-                    icon: const Icon(Icons.arrow_drop_down),
-                    elevation: 16,
-                    style: const TextStyle(color: Colors.deepPurple),
-                    underline: Container(
-                      height: 2,
-                      color: Colors.deepPurpleAccent,
-                    ),
-                    onChanged: (newValue) {
-                      setState(() {
-                        dropdownValue = newValue;
-                      });
-                    },
-                    items: _categories.map<DropdownMenuItem<int>>((category) {
-                      return DropdownMenuItem<int>(
-                        value: category.id,
-                        child: Text(category.title),
-                      );
-                    }).toList(),
-                  ),
+                  child: _categories.isNotEmpty
+                      ? DropdownButton<int>(
+                          value: dropdownValue,
+                          icon: const Icon(Icons.arrow_drop_down),
+                          elevation: 16,
+                          style: const TextStyle(color: Colors.deepPurple),
+                          underline: Container(
+                            height: 2,
+                            color: Colors.deepPurpleAccent,
+                          ),
+                          onChanged: (newValue) {
+                            setState(() {
+                              dropdownValue = newValue;
+                            });
+                          },
+                          items: _categories
+                              .map<DropdownMenuItem<int>>((category) {
+                            return DropdownMenuItem<int>(
+                              value: category.id,
+                              child: Text(category.title),
+                            );
+                          }).toList(),
+                        )
+                      : Center(
+                          child: LinearProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation(Colors.green),
+                          minHeight: 7,
+                          backgroundColor: Colors.redAccent,
+                        )),
                 ),
               ],
             ),
@@ -122,15 +156,15 @@ class _ExpensesFormState extends State<ExpensesForm> {
               children: [
                 Expanded(
                   flex: 3,
-                  child: Text(_selectedDate == null
-                      ? 'Nenhuma data selectionada!'
-                      : DateFormat('dd/MM/y').format(_selectedDate)),
+                  child: Text(DateFormat('dd/MM/y').format(_selectedDate)),
                 ),
                 Expanded(
                   flex: 5,
                   child: FlatButton(
                     textColor: Theme.of(context).primaryColor,
-                    onPressed: _showDatePicker,
+                    onPressed: widget.id != null && widget.id > 0
+                        ? () => _showDatePicker(_expensesModel.date)
+                        : _showDatePicker,
                     child: const Text(
                       'Selecionar Data',
                       style: TextStyle(fontWeight: FontWeight.bold),

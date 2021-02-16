@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../common/custom_drawer/my_drawer.dart';
 import '../components/chart.dart';
-import '../models/category_model.dart';
 import '../models/expenses_model.dart';
 import 'expenses/expenses_form.dart';
 import 'expenses/expenses_list.dart';
@@ -36,15 +35,9 @@ class _MyHomePageState extends State<MyHomePage> {
         .toList();
   }
 
-  void _addTransaction(
-      String title, double value, DateTime date, CategoryModel category) async {
-    final newTransaction = ExpensesModel(
-        title: title, value: value, date: date, category: category.id);
-
-    newTransaction.id = await _repositoryExpenses.insert(newTransaction);
-
+  void _addTransaction(ExpensesModel obj) async {
     setState(() {
-      _transactions.add(newTransaction);
+      _transactions.add(obj);
       _transactions.sort((a, b) => a.title.compareTo(b.title));
     });
 
