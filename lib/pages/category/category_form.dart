@@ -69,7 +69,7 @@ class _CategoryFormState extends State<CategoryForm> {
                   onPressed: _submitForm,
                   color: Theme.of(context).primaryColor,
                   textColor: Theme.of(context).textTheme.button.color,
-                  child: const Text('Nova categoria'),
+                  child: const Text('Salvar'),
                 ),
               ],
             )
