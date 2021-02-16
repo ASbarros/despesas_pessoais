@@ -37,14 +37,15 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _addTransaction(
-      String title, double value, DateTime date, CategoryModel category) {
+      String title, double value, DateTime date, CategoryModel category) async {
     final newTransaction = ExpensesModel(
         title: title, value: value, date: date, category: category.id);
 
-    _repositoryExpenses.insert(newTransaction);
+    newTransaction.id = await _repositoryExpenses.insert(newTransaction);
 
     setState(() {
       _transactions.add(newTransaction);
+      _transactions.sort((a, b) => a.title.compareTo(b.title));
     });
 
     Navigator.of(context).pop();
