@@ -22,7 +22,7 @@ class ExpensesForm extends StatefulWidget {
 class _ExpensesFormState extends State<ExpensesForm> {
   ExpensesModel _expensesModel;
   final _titleController = TextEditingController();
-  final _valueController = TextEditingController();
+  final _valueController = TextEditingController(text: '#,##');
   final _repositoryCategory = CategoryRepository();
   final _repositoryExpense = ExpensesRepository();
 
@@ -82,7 +82,9 @@ class _ExpensesFormState extends State<ExpensesForm> {
     if (widget.id != null && widget.id > 0) {
       _expensesModel = await _repositoryExpense.getById(widget.id);
       _titleController.text = _expensesModel.title;
-      _valueController.text = _expensesModel.value.toString();
+
+      _valueController.text =
+          _expensesModel.value.toString().replaceAll('.', ',');
       _selectedDate = _expensesModel.date;
       dropdownValue = _expensesModel.category;
     }
