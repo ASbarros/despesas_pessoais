@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'samples/pie_chart_sample2.dart';
+import 'samples/pie_chart_page.dart';
 
 class ChartsPage extends StatelessWidget {
   @override

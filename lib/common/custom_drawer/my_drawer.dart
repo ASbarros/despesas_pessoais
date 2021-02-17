@@ -1,3 +1,4 @@
+import '../../pages/charts/pie_chart/pie_chart.dart';
 import 'package:flutter/material.dart';
 
 import '../../pages/category/category_page.dart';
@@ -34,6 +35,19 @@ class MyDrawer extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (ctx) => CategoryPage(),
+                ),
+              );
+            },
+          ),
+          DrawerTile(
+            iconData: Icons.pie_chart,
+            title: 'Gráficos',
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (ctx) => ChartsPage(),
                 ),
               );
             },

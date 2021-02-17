@@ -2,7 +2,7 @@ import 'package:financas_pessoais/repositorys/expenses_repository.dart';
 import 'package:flutter/material.dart';
 
 import '../common/custom_drawer/my_drawer.dart';
-import '../components/chart.dart';
+import 'charts/chart_card/chart.dart';
 import '../models/expenses_model.dart';
 import 'expenses/expenses_form.dart';
 import 'expenses/expenses_list.dart';
@@ -76,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Chart(recentTransactions: _recentTransactions),
+          ChartCard(recentTransactions: _recentTransactions),
           Flexible(
             child: ExpensesList(
                 transactions: _transactions, onRemove: _removeTransaction),
