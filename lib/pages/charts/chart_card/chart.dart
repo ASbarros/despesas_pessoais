@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../common/my_clipper.dart';
-import '../models/expenses_model.dart';
+import '../../../common/my_clipper.dart';
+import '../../../models/expenses_model.dart';
 import 'chart_bar.dart';
 
-// ignore: prefer_mixin
-class Chart extends StatelessWidget with PreferredSizeWidget {
+class ChartCard extends StatelessWidget with PreferredSizeWidget {
   final List<ExpensesModel> recentTransactions;
 
-  const Chart({Key key, @required this.recentTransactions}) : super(key: key);
+  const ChartCard({Key key, @required this.recentTransactions})
+      : super(key: key);
 
   List<Map<String, Object>> get groupedTransactions {
     return List.generate(7, (index) {
