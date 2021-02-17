@@ -82,9 +82,7 @@ class _ExpensesFormState extends State<ExpensesForm> {
     if (widget.id != null && widget.id > 0) {
       _expensesModel = await _repositoryExpense.getById(widget.id);
       _titleController.text = _expensesModel.title;
-
-      _valueController.text =
-          _expensesModel.value.toString().replaceAll('.', ',');
+      _valueController.text = _expensesModel.valueFormatted;
       _selectedDate = _expensesModel.date;
       dropdownValue = _expensesModel.category;
     }

@@ -1,12 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../database/tables/expenses_table.dart';
 import 'model_base.dart';
 
 class ExpensesModel extends ModelBase {
-  final double value;
+  double value;
   final DateTime date;
   final int category;
 
@@ -17,6 +18,18 @@ class ExpensesModel extends ModelBase {
       @required this.category,
       @required this.date})
       : super(id: id, title: title);
+
+  set valueOfString(String source) {
+    final value =
+        double.tryParse(source.replaceAll('.', '').replaceAll(',', '.')) ?? 0.0;
+    this.value = value;
+  }
+
+  String get valueFormatted {
+    final numberFormat = NumberFormat.currency(locale: 'pt_br');
+
+    return numberFormat.format(value).substring(4);
+  }
 
   @override
   Map<String, dynamic> toMap() {
