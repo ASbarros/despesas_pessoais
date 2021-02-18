@@ -1,3 +1,5 @@
+import 'package:financas_pessoais/pages/backup/backup_page.dart';
+
 import '../../pages/charts/pie_chart/pie_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -48,6 +50,19 @@ class MyDrawer extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (ctx) => ChartsPage(),
+                ),
+              );
+            },
+          ),
+          DrawerTile(
+            iconData: Icons.backup,
+            title: 'Backup',
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (ctx) => BackupPage(),
                 ),
               );
             },
