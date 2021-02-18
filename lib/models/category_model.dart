@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import '../database/tables/categories_table.dart';
@@ -10,6 +12,8 @@ class CategoryModel extends ModelBase {
   Map<String, Object> toMap() {
     return {'id': id, 'title': title};
   }
+
+  String toJson() => json.encode(toMap());
 
   factory CategoryModel.fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
