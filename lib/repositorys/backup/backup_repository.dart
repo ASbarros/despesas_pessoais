@@ -1,6 +1,7 @@
 import 'package:financas_pessoais/models/category_model.dart';
 import 'package:financas_pessoais/models/expenses_model.dart';
 import 'package:financas_pessoais/repositorys/category_repository.dart';
+
 import 'package:googleapis/drive/v3.dart' as drive;
 import 'package:google_sign_in/google_sign_in.dart' as signin;
 import 'dart:convert' show json, utf8;
@@ -13,7 +14,7 @@ class BackupRepository {
   final _repositoryCategory = CategoryRepository();
   final _repositoryExpenses = ExpensesRepository();
 
-  void writeBackup() async {
+  Future<Map<String, dynamic>> writeBackup() async {
     final listCategories = await _repositoryCategory.fetchCategories();
     final listExpenses = await _repositoryExpenses.fetchExpenses();
     final obj = {'categories': listCategories, 'expenses': listExpenses};
@@ -42,12 +43,14 @@ class BackupRepository {
         }
       }
       await driveApi.files.create(driveFile, uploadMedia: media);
+      return {'success': true, 'msg': ''};
     } on Exception catch (_, e) {
       print(e);
+      return {'success': false, 'msg': e};
     }
   }
 
-  void readBackup() async {
+  Future<Map<String, dynamic>> readBackup() async {
     try {
       final googleSignIn =
           signin.GoogleSignIn.standard(scopes: [drive.DriveApi.DriveScope]);
@@ -84,9 +87,11 @@ class BackupRepository {
       }, onError: (error) {
         print('Some Error $error');
       });
-      print('terminou');
+
+      return {'success': true, 'msg': ''};
     } on Exception catch (_, e) {
       print(e);
+      return {'success': false, 'msg': e};
     }
   }
 }
