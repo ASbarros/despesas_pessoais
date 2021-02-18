@@ -1,3 +1,4 @@
+import 'package:financas_pessoais/common/search_dialog.dart';
 import 'package:financas_pessoais/repositorys/expenses_repository.dart';
 import 'package:flutter/material.dart';
 
@@ -13,23 +14,26 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<ExpensesModel> _transactions = [];
+  final List<ExpensesModel> _expenses = [];
+  List<ExpensesModel> _expensesFiltered = [];
   final _repositoryExpenses = ExpensesRepository();
+  String _search;
 
   @override
   void initState() {
     super.initState();
+    _search = '';
     setState(() {
       _repositoryExpenses.fetchExpenses().then((list) {
         setState(() {
-          _transactions.addAll(list);
+          _expenses.addAll(list);
         });
       }).catchError(print);
     });
   }
 
-  List<ExpensesModel> get _recentTransactions {
-    return _transactions
+  List<ExpensesModel> get _recentExpenses {
+    return _expenses
         .where((tr) =>
             tr.date.isAfter(DateTime.now().subtract(const Duration(days: 7))))
         .toList();
@@ -37,8 +41,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _addTransaction(ExpensesModel obj) async {
     setState(() {
-      _transactions.add(obj);
-      _transactions.sort((a, b) => a.title.compareTo(b.title));
+      _expenses.add(obj);
+      _expenses.sort((a, b) => a.title.compareTo(b.title));
     });
 
     Navigator.of(context).pop();
@@ -46,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _removeTransaction(int id) {
     setState(() {
-      _transactions.removeWhere((tr) => tr.id == id);
+      _expenses.removeWhere((tr) => tr.id == id);
       _repositoryExpenses.delete(id);
     });
   }
@@ -63,9 +67,30 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Despesas Pessoais'),
+        title: Visibility(
+          visible: _search.isEmpty,
+          child: const Text('Despesas Pessoais'),
+          replacement: const Text('busca'),
+        ),
         centerTitle: true,
         actions: [
+          IconButton(
+            icon: const Icon(Icons.search, size: 30),
+            onPressed: () async {
+              final search = await showDialog<String>(
+                  context: context,
+                  builder: (_) => SearchDialog(
+                        initialText: _search,
+                      ));
+              _search = search;
+              if (search != null) {
+                setState(() {
+                  _expensesFiltered =
+                      _expenses.where((e) => e.title.contains(search)).toList();
+                });
+              }
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.add, size: 30),
             onPressed: () => _openTransactionFormModal(context),
@@ -76,10 +101,19 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          ChartCard(recentTransactions: _recentTransactions),
+          ChartCard(recentTransactions: _recentExpenses),
+          /* Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+            Card(
+              elevation: 6,
+              margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+              child: IconButton(icon: Icon(Icons.sort), onPressed: () {}),
+            ),
+          ]), */
           Flexible(
             child: ExpensesList(
-                transactions: _transactions, onRemove: _removeTransaction),
+                transactions:
+                    _expensesFiltered.isEmpty ? _expenses : _expensesFiltered,
+                onRemove: _removeTransaction),
           ),
         ],
       ),
