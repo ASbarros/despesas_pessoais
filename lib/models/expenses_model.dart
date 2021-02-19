@@ -49,7 +49,9 @@ class ExpensesModel extends ModelBase {
     return ExpensesModel(
       id: map['id'] as int,
       title: map['title'] as String,
-      value: double.tryParse(map['value']) ?? 0.0,
+      value: map['value'] is double
+          ? map['value']
+          : double.tryParse(map['value']) ?? 0.0,
       date: DateTime.fromMillisecondsSinceEpoch(map['date'] as int),
       category: map['category'] as int,
     );
