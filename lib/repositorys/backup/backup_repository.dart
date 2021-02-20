@@ -44,9 +44,9 @@ class BackupRepository {
       }
       await driveApi.files.create(driveFile, uploadMedia: media);
       return {'success': true, 'msg': ''};
-    } on Exception catch (_, e) {
-      print(e);
-      return {'success': false, 'msg': e};
+    } on Exception catch (exception, stackTrace) {
+      print('exception: $exception | stackTrace: $stackTrace');
+      return {'success': false, 'msg': exception};
     }
   }
 
@@ -89,9 +89,9 @@ class BackupRepository {
       });
 
       return {'success': true, 'msg': ''};
-    } on Exception catch (_, e) {
-      print(e);
-      return {'success': false, 'msg': e};
+    } on Exception catch (exception, stackTrace) {
+      print(stackTrace);
+      return {'success': false, 'msg': exception};
     }
   }
 }

@@ -42,7 +42,8 @@ class PieChartPageState extends State<PieChartPage> {
     return AspectRatio(
       aspectRatio: 1.3,
       child: Card(
-        color: Colors.white,
+        color: Colors.grey[300],
+        elevation: 5,
         child: _data.isNotEmpty
             ? Row(
                 children: <Widget>[
@@ -107,7 +108,7 @@ class PieChartPageState extends State<PieChartPage> {
         0.0, (previousValue, element) => previousValue += element.totalValue);
     for (var i = 0; i < _data.length; i++) {
       final isTouched = i == touchedIndex;
-      final fontSize = isTouched ? 25.0 : 16.0;
+      final fontSize = isTouched ? 22.0 : 12.0;
       final radius = isTouched ? 60.0 : 50.0;
       res.add(PieChartSectionData(
         color: _colors[i],

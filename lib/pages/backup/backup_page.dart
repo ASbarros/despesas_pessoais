@@ -62,7 +62,7 @@ class _BackupPageState extends State<BackupPage> {
                         label: 'OK',
                         onPressed: () {},
                       ),
-                      content: Text('Falha ao criar!'),
+                      content: Text('Falha ao criar! ${res['msg']}'),
                       duration: Duration(seconds: 5),
                     ));
                   }
@@ -101,7 +101,7 @@ class _BackupPageState extends State<BackupPage> {
                         label: 'OK',
                         onPressed: () {},
                       ),
-                      content: Text('Falha ao restaurar!'),
+                      content: Text('Falha ao restaurar! ${res['msg']}'),
                       duration: Duration(seconds: 5),
                     ));
                   }
