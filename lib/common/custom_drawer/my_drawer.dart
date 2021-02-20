@@ -54,7 +54,7 @@ class MyDrawer extends StatelessWidget {
               );
             },
           ),
-          DrawerTile(
+          /*  DrawerTile(
             iconData: Icons.backup,
             title: 'Backup',
             onTap: () {
@@ -66,7 +66,7 @@ class MyDrawer extends StatelessWidget {
                 ),
               );
             },
-          ),
+          ), */
         ],
       ),
     );

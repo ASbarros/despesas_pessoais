@@ -65,24 +65,20 @@ class PieChartPageState extends State<PieChartPage> {
                                 }
                               });
                             }),
-                            borderData: FlBorderData(
-                              show: false,
-                            ),
-                            sectionsSpace: 0,
-                            centerSpaceRadius: 40,
+                            borderData: FlBorderData(show: false),
+                            sectionsSpace: 1,
+                            centerSpaceRadius: 30,
                             sections: showingSections()),
                       ),
                     ),
                   ),
                   Column(
-                    mainAxisSize: MainAxisSize.max,
+                    // mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: showingCatalogSections(),
                   ),
-                  const SizedBox(
-                    width: 28,
-                  ),
+                  const SizedBox(width: 8),
                 ],
               )
             : Center(
@@ -112,7 +108,7 @@ class PieChartPageState extends State<PieChartPage> {
     for (var i = 0; i < _data.length; i++) {
       final isTouched = i == touchedIndex;
       final fontSize = isTouched ? 25.0 : 16.0;
-      final radius = isTouched ? 70.0 : 60.0;
+      final radius = isTouched ? 60.0 : 50.0;
       res.add(PieChartSectionData(
         color: _colors[i],
         value: _data[i].totalValue,

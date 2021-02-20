@@ -70,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Visibility(
           visible: _search.isEmpty,
           child: const Text('Despesas Pessoais'),
-          replacement: const Text('busca'),
+          replacement: Text(_search),
         ),
         centerTitle: true,
         actions: [
@@ -85,8 +85,10 @@ class _MyHomePageState extends State<MyHomePage> {
               _search = search;
               if (search != null) {
                 setState(() {
-                  _expensesFiltered =
-                      _expenses.where((e) => e.title.contains(search)).toList();
+                  _expensesFiltered = _expenses
+                      .where((e) =>
+                          e.title.toLowerCase().contains(search.toLowerCase()))
+                      .toList();
                 });
               }
             },
@@ -111,8 +113,9 @@ class _MyHomePageState extends State<MyHomePage> {
           ]), */
           Flexible(
             child: ExpensesList(
-                transactions:
-                    _expensesFiltered.isEmpty ? _expenses : _expensesFiltered,
+                transactions: _expensesFiltered.isEmpty && _search.isEmpty
+                    ? _expenses
+                    : _expensesFiltered,
                 onRemove: _removeTransaction),
           ),
         ],
