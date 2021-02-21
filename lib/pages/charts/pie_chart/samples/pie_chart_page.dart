@@ -49,6 +49,7 @@ class PieChartPageState extends State<PieChartPage> {
                 children: <Widget>[
                   const SizedBox(height: 18),
                   Expanded(
+                    flex: 4,
                     child: AspectRatio(
                       aspectRatio: 1,
                       child: PieChart(
@@ -73,11 +74,15 @@ class PieChartPageState extends State<PieChartPage> {
                       ),
                     ),
                   ),
-                  Column(
-                    // mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: showingCatalogSections(),
+                  Expanded(
+                    flex: 2,
+                    child: ListView(reverse: true, children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: showingCatalogSections(),
+                      ),
+                    ]),
                   ),
                   const SizedBox(width: 8),
                 ],

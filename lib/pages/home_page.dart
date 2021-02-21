@@ -1,10 +1,10 @@
 import 'package:financas_pessoais/common/search_dialog.dart';
-import 'package:financas_pessoais/repositorys/expenses_repository.dart';
+import 'package:financas_pessoais/providers/expenses_providers.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../common/custom_drawer/my_drawer.dart';
 import 'charts/chart_card/chart.dart';
-import '../models/expenses_model.dart';
 import 'expenses/expenses_form.dart';
 import 'expenses/expenses_list.dart';
 
@@ -14,63 +14,37 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<ExpensesModel> _expenses = [];
-  List<ExpensesModel> _expensesFiltered = [];
-  final _repositoryExpenses = ExpensesRepository();
-  String _search;
-
   @override
   void initState() {
     super.initState();
-    _search = '';
-    setState(() {
-      _repositoryExpenses.fetchExpenses().then((list) {
-        setState(() {
-          _expenses.addAll(list);
-        });
-      }).catchError(print);
-    });
-  }
-
-  List<ExpensesModel> get _recentExpenses {
-    return _expenses
-        .where((tr) =>
-            tr.date.isAfter(DateTime.now().subtract(const Duration(days: 7))))
-        .toList();
-  }
-
-  void _addTransaction(ExpensesModel obj) async {
-    setState(() {
-      _expenses.add(obj);
-      _expenses.sort((a, b) => a.title.compareTo(b.title));
-    });
-
-    Navigator.of(context).pop();
-  }
-
-  void _removeTransaction(int id) {
-    setState(() {
-      _expenses.removeWhere((tr) => tr.id == id);
-      _repositoryExpenses.delete(id);
-    });
   }
 
   void _openTransactionFormModal(BuildContext context) {
     showModalBottomSheet(
         context: context,
         builder: (_) {
-          return ExpensesForm(onSubmit: _addTransaction);
+          final expensesProvider = Provider.of<ExpensesProvider>(context);
+          return ExpensesForm(onSubmit: (obj) async {
+            if (obj.id != null && obj.id > 0) {
+              await expensesProvider.update(obj);
+            } else {
+              await expensesProvider.add(obj);
+            }
+            Navigator.of(context).pop();
+          });
         });
   }
 
   @override
   Widget build(BuildContext context) {
+    final expensesProvider = Provider.of<ExpensesProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Visibility(
-          visible: _search.isEmpty,
+          visible: expensesProvider.search.isEmpty,
           child: const Text('Despesas Pessoais'),
-          replacement: Text(_search),
+          replacement: Text(expensesProvider.search),
         ),
         centerTitle: true,
         actions: [
@@ -80,17 +54,9 @@ class _MyHomePageState extends State<MyHomePage> {
               final search = await showDialog<String>(
                   context: context,
                   builder: (_) => SearchDialog(
-                        initialText: _search,
+                        initialText: expensesProvider.search,
                       ));
-              _search = search;
-              if (search != null) {
-                setState(() {
-                  _expensesFiltered = _expenses
-                      .where((e) =>
-                          e.title.toLowerCase().contains(search.toLowerCase()))
-                      .toList();
-                });
-              }
+              expensesProvider.search = search ?? '';
             },
           ),
           IconButton(
@@ -103,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          ChartCard(recentTransactions: _recentExpenses),
+          ChartCard(recentTransactions: expensesProvider.recentExpenses),
           /* Row(mainAxisAlignment: MainAxisAlignment.end, children: [
             Card(
               elevation: 6,
@@ -112,11 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ]), */
           Flexible(
-            child: ExpensesList(
-                transactions: _expensesFiltered.isEmpty && _search.isEmpty
-                    ? _expenses
-                    : _expensesFiltered,
-                onRemove: _removeTransaction),
+            child: ExpensesList(onRemove: expensesProvider.delete),
           ),
         ],
       ),

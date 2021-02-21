@@ -40,16 +40,12 @@ class _ExpensesFormState extends State<ExpensesForm> {
       return;
     }
     _expensesModel = ExpensesModel(
+        id: widget.id,
         title: title,
         value: value,
         category: dropdownValue,
         date: _selectedDate);
-    if (widget.id != null && widget.id > 0) {
-      _expensesModel.id = widget.id;
-      await _repositoryExpense.update(_expensesModel);
-    } else {
-      _expensesModel.id = await _repositoryExpense.insert(_expensesModel);
-    }
+
     widget.onSubmit(_expensesModel);
   }
 
