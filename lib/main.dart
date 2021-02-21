@@ -1,10 +1,11 @@
+import 'package:financas_pessoais/providers/category_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'pages/home_page.dart';
-import './providers/expenses_providers.dart';
+import 'providers/expenses_provider.dart';
 
 void main() => runApp(MyApp());
 
@@ -17,7 +18,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => ExpensesProvider(),
           lazy: true,
-        )
+        ),
+        ChangeNotifierProvider(
+          create: (_) => CategoryProvider(),
+          lazy: true,
+        ),
       ],
       child: MaterialApp(
         theme: ThemeData(

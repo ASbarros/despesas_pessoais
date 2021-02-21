@@ -1,13 +1,11 @@
 import 'package:financas_pessoais/pages/expenses/expenses_form.dart';
-import 'package:financas_pessoais/providers/expenses_providers.dart';
+import 'package:financas_pessoais/providers/expenses_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ExpensesList extends StatefulWidget {
-  final void Function(int) onRemove;
-
-  const ExpensesList({Key key, @required this.onRemove}) : super(key: key);
+  const ExpensesList({Key key}) : super(key: key);
 
   @override
   _ExpensesListState createState() => _ExpensesListState();
@@ -73,7 +71,7 @@ class _ExpensesListState extends State<ExpensesList> {
                 trailing: IconButton(
                     color: Theme.of(context).errorColor,
                     icon: const Icon(Icons.delete),
-                    onPressed: () => widget.onRemove(tr.id)),
+                    onPressed: () => expensesProvider.delete(tr.id)),
               ),
             );
           },

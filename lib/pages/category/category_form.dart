@@ -1,14 +1,15 @@
+import 'package:financas_pessoais/providers/category_provider.dart';
 import 'package:financas_pessoais/repositorys/category_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/category_model.dart';
 
 class CategoryForm extends StatefulWidget {
   final int id;
-  final void Function(CategoryModel) onSaved;
 
-  const CategoryForm({Key key, this.id, this.onSaved}) : super(key: key);
+  const CategoryForm({Key key, this.id}) : super(key: key);
   @override
   _CategoryFormState createState() => _CategoryFormState();
 }
@@ -16,24 +17,7 @@ class CategoryForm extends StatefulWidget {
 class _CategoryFormState extends State<CategoryForm> {
   final _titleController = TextEditingController();
   final _repository = CategoryRepository();
-  CategoryModel category = CategoryModel(title: null);
-
-  void _submitForm() async {
-    final title = _titleController.text;
-
-    if (title.isEmpty) {
-      return;
-    }
-
-    category.title = title;
-    if (widget.id != null && widget.id > 0) {
-      await _repository.update(category);
-    } else {
-      category.id = await _repository.insert(category);
-    }
-    Navigator.of(context).pop();
-    widget.onSaved(category);
-  }
+  CategoryModel category;
 
   @override
   void initState() {
@@ -50,6 +34,24 @@ class _CategoryFormState extends State<CategoryForm> {
 
   @override
   Widget build(BuildContext context) {
+    final categoryProvider = Provider.of<CategoryProvider>(context);
+
+    void _submitForm() {
+      final title = _titleController.text;
+
+      if (title.isEmpty) {
+        return;
+      }
+
+      category.title = title;
+      if (widget.id != null && widget.id > 0) {
+        categoryProvider.update(category);
+      } else {
+        categoryProvider.add(category);
+      }
+      Navigator.of(context).pop();
+    }
+
     return Card(
       elevation: 5,
       child: Padding(

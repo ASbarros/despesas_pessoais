@@ -1,5 +1,5 @@
 import 'package:financas_pessoais/common/search_dialog.dart';
-import 'package:financas_pessoais/providers/expenses_providers.dart';
+import 'package:financas_pessoais/providers/expenses_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -78,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ]), */
           Flexible(
-            child: ExpensesList(onRemove: expensesProvider.delete),
+            child: ExpensesList(),
           ),
         ],
       ),
