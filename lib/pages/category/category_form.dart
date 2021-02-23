@@ -1,6 +1,5 @@
 import 'package:financas_pessoais/providers/category_provider.dart';
 import 'package:financas_pessoais/repositorys/category_repository.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +21,7 @@ class _CategoryFormState extends State<CategoryForm> {
   @override
   void initState() {
     super.initState();
+
     if (widget.id != null && widget.id > 0) {
       _repository.getById(widget.id).then((value) {
         setState(() {
@@ -43,8 +43,9 @@ class _CategoryFormState extends State<CategoryForm> {
         return;
       }
 
-      category.title = title;
+      category = CategoryModel(title: title);
       if (widget.id != null && widget.id > 0) {
+        category.id = widget.id;
         categoryProvider.update(category);
       } else {
         categoryProvider.add(category);
