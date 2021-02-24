@@ -2,20 +2,19 @@ import 'dart:convert';
 
 class ChartPieDataModel {
   final String category;
+  final int idCategory;
   double totalValue;
-  ChartPieDataModel({
-    this.category,
-    this.totalValue,
-  });
+  ChartPieDataModel({this.category, this.totalValue, this.idCategory});
 
   @override
   String toString() =>
-      'ChartPieDataModel(category: $category, totalValue: $totalValue)';
+      'ChartPieDataModel(category: $category, totalValue: $totalValue, idCategory: $idCategory)';
 
   Map<String, dynamic> toMap() {
     return {
       'category': category,
       'totalValue': totalValue,
+      'idCategory': idCategory
     };
   }
 
@@ -25,6 +24,7 @@ class ChartPieDataModel {
     return ChartPieDataModel(
       category: map['category'],
       totalValue: map['totalValue'],
+      idCategory: map['idCategory'],
     );
   }
 

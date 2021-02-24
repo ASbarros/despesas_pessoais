@@ -17,8 +17,11 @@ class ChartPieRepository {
           .firstWhere((element) => element['id'] == idCategory)['title'];
       final value = double.parse(item['value']);
 
-      final data = ChartPieDataModel.fromMap(
-          {'category': nameCategory, 'totalValue': value});
+      final data = ChartPieDataModel.fromMap({
+        'category': nameCategory,
+        'totalValue': value,
+        'idCategory': idCategory
+      });
       if (datas.contains(data)) {
         final obj =
             datas.firstWhere((element) => element.category == data.category);
