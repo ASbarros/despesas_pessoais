@@ -61,10 +61,14 @@ class ChartPieProvider with ChangeNotifier {
     _loadData();
 
     final res = <PieChartSectionData>[];
-    final total = _data.fold(
-        0.0, (previousValue, element) => previousValue += element.totalValue);
+    final total = _data.fold(0.0, (previousValue, element) {
+      if (idsCategoriesSelected.contains(element.idCategory)) {
+        return previousValue;
+      }
+      return previousValue += element.totalValue;
+    });
     for (var i = 0; i < _data.length; i++) {
-      if (!idsCategoriesSelected.contains(_data[i].idCategory)) continue;
+      if (idsCategoriesSelected.contains(_data[i].idCategory)) continue;
       final isTouched = i == touchedIndex;
       final fontSize = isTouched ? 22.0 : 12.0;
       final radius = isTouched ? 60.0 : 50.0;
@@ -93,7 +97,7 @@ class ChartPieProvider with ChangeNotifier {
         color: _colors[i],
         text: _data[i].category,
         idCategory: _data[i].idCategory,
-        selected: idsCategoriesSelected.contains(_data[i].idCategory),
+        selected: !idsCategoriesSelected.contains(_data[i].idCategory),
       ));
       res.add(SizedBox(height: 5));
     }
