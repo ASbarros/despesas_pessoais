@@ -68,18 +68,27 @@ class _MyHomePageState extends State<MyHomePage> {
       drawer: MyDrawer(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           ChartCard(recentTransactions: expensesProvider.recentExpenses),
-          /* Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-            Card(
-              elevation: 6,
-              margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
-              child: IconButton(icon: Icon(Icons.sort), onPressed: () {}),
-            ),
-          ]), */
           Flexible(
             child: ExpensesList(),
           ),
+          Card(
+            color: Colors.grey[200],
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 2, vertical: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Total: ${expensesProvider.totalValue}',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+          )
         ],
       ),
     );

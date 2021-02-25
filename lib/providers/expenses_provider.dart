@@ -25,15 +25,15 @@ class ExpensesProvider with ChangeNotifier {
 
   List<ExpensesModel> get items => [..._items];
 
-  List<ExpensesModel> get filteredProducts {
-    final filteredProducts = <ExpensesModel>[];
+  List<ExpensesModel> get filteredExpenses {
+    final filteredExpenses = <ExpensesModel>[];
     if (_search.isEmpty) {
-      filteredProducts.addAll(_items);
+      filteredExpenses.addAll(_items);
     } else {
-      filteredProducts.addAll(_items.where((element) =>
+      filteredExpenses.addAll(_items.where((element) =>
           element.title.toLowerCase().contains(_search.toLowerCase())));
     }
-    return filteredProducts;
+    return filteredExpenses;
   }
 
   List<ExpensesModel> get recentExpenses {
@@ -42,6 +42,9 @@ class ExpensesProvider with ChangeNotifier {
             tr.date.isAfter(DateTime.now().subtract(const Duration(days: 7))))
         .toList();
   }
+
+  double get totalValue => filteredExpenses.fold(
+      0.0, (previousValue, element) => previousValue += element.value);
 
   void add(ExpensesModel expense) async {
     expense.id = await _repository.insert(expense);

@@ -15,7 +15,7 @@ class _ExpensesListState extends State<ExpensesList> {
   @override
   Widget build(BuildContext context) {
     return Consumer<ExpensesProvider>(builder: (_, expensesProvider, __) {
-      final filteredExpenses = expensesProvider.filteredProducts;
+      final filteredExpenses = expensesProvider.filteredExpenses;
       if (filteredExpenses.isEmpty) {
         return Column(
           children: [
