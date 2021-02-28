@@ -1,12 +1,11 @@
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:financas_pessoais/models/expenses_model.dart';
-import 'package:financas_pessoais/repositorys/category_repository.dart';
+import 'package:financas_pessoais/providers/category_provider.dart';
 import 'package:financas_pessoais/repositorys/expenses_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-
-import '../../models/category_model.dart';
+import 'package:provider/provider.dart';
 
 class ExpensesForm extends StatefulWidget {
   final void Function(ExpensesModel) onSubmit;
@@ -23,11 +22,10 @@ class _ExpensesFormState extends State<ExpensesForm> {
   ExpensesModel _expensesModel;
   final _titleController = TextEditingController();
   final _valueController = TextEditingController(text: '#,##');
-  final _repositoryCategory = CategoryRepository();
+
   final _repositoryExpense = ExpensesRepository();
 
-  int dropdownValue;
-  final _categories = <CategoryModel>[];
+  int dropdownValue = 0;
 
   DateTime _selectedDate = DateTime.now();
 
@@ -72,9 +70,6 @@ class _ExpensesFormState extends State<ExpensesForm> {
   }
 
   void init() async {
-    final list = await _repositoryCategory.fetchCategories();
-    dropdownValue = list.first.id;
-
     if (widget.id != null && widget.id > 0) {
       _expensesModel = await _repositoryExpense.getById(widget.id);
       _titleController.text = _expensesModel.title;
@@ -83,13 +78,17 @@ class _ExpensesFormState extends State<ExpensesForm> {
       dropdownValue = _expensesModel.category;
     }
 
-    setState(() {
-      _categories.addAll(list);
-    });
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
+    final categoryProvider = Provider.of<CategoryProvider>(context);
+
+    final categories = categoryProvider.items;
+    if (dropdownValue == 0) {
+      dropdownValue = categories.first.id;
+    }
     return Card(
       elevation: 5,
       child: Padding(
@@ -116,7 +115,7 @@ class _ExpensesFormState extends State<ExpensesForm> {
                 const Expanded(flex: 3, child: Text('Categoria')),
                 Expanded(
                   flex: 5,
-                  child: _categories.isNotEmpty
+                  child: categories.isNotEmpty
                       ? DropdownButton<int>(
                           value: dropdownValue,
                           icon: const Icon(Icons.arrow_drop_down),
@@ -131,8 +130,8 @@ class _ExpensesFormState extends State<ExpensesForm> {
                               dropdownValue = newValue;
                             });
                           },
-                          items: _categories
-                              .map<DropdownMenuItem<int>>((category) {
+                          items:
+                              categories.map<DropdownMenuItem<int>>((category) {
                             return DropdownMenuItem<int>(
                               value: category.id,
                               child: Text(category.title),
