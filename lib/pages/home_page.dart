@@ -7,6 +7,7 @@ import '../common/custom_drawer/my_drawer.dart';
 import 'charts/chart_card/chart.dart';
 import 'expenses/expenses_form.dart';
 import 'expenses/expenses_list.dart';
+import 'footer_home.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -74,21 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Flexible(
             child: ExpensesList(),
           ),
-          Card(
-            color: Colors.grey[200],
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 2, vertical: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Total: ${expensesProvider.totalValue}',
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
-          )
+          FooterHome(totalValue: expensesProvider.totalValue)
         ],
       ),
     );
