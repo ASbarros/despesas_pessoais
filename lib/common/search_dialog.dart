@@ -1,9 +1,62 @@
+import 'package:financas_pessoais/providers/expenses_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class SearchDialog extends StatelessWidget {
   final String initialText;
 
-  const SearchDialog({Key key, this.initialText}) : super(key: key);
+  const SearchDialog({Key key, this.initialText = ''}) : super(key: key);
+
+  void _openSelectDateModal(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (ctx) {
+          final expensesProvider = Provider.of<ExpensesProvider>(ctx);
+          return Card(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Data inicial: '),
+                    IconButton(
+                      icon: Icon(FontAwesomeIcons.calendar),
+                      onPressed: () {
+                        showDatePicker(
+                          context: context,
+                          initialDate: expensesProvider.startDate,
+                          firstDate: DateTime(2020),
+                          lastDate: DateTime.now(),
+                        ).then((pickedDate) {
+                          if (pickedDate == null) {
+                            return;
+                          }
+
+                          expensesProvider.startDate = pickedDate;
+                          Navigator.of(context).pop();
+                        });
+                      },
+                    ),
+                    Text('busta de datas'),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Data final: '),
+                    IconButton(
+                        icon: Icon(FontAwesomeIcons.calendar), onPressed: null),
+                    Text('busta de datas'),
+                  ],
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -24,6 +77,25 @@ class SearchDialog extends StatelessWidget {
                   icon: const Icon(Icons.arrow_back),
                   onPressed: () {
                     Navigator.of(context).pop();
+                  },
+                ),
+                suffixIcon: PopupMenuButton<int>(
+                  icon: Icon(FontAwesomeIcons.filter),
+                  itemBuilder: (context) {
+                    return [
+                      PopupMenuItem(
+                        value: 1,
+                        child: Text(
+                          'Filtrar por Data',
+                          style: Theme.of(context).textTheme.headline6,
+                        ),
+                      )
+                    ];
+                  },
+                  onSelected: (index) {
+                    if (index == 1) {
+                      _openSelectDateModal(context);
+                    }
                   },
                 ),
               ),
