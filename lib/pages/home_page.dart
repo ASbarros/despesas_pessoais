@@ -44,8 +44,8 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Visibility(
           visible: expensesProvider.search.isEmpty,
-          child: const Text('Despesas Pessoais'),
           replacement: Text(expensesProvider.search),
+          child: const Text('Despesas Pessoais'),
         ),
         centerTitle: true,
         actions: [

@@ -67,6 +67,7 @@ class DatabaseHelper {
 
   Future<void> clearTable(String table) async {
     final db = await instance.database;
-    return db.rawQuery('DELETE FROM $table');
+    await db.rawQuery('DELETE FROM $table');
+    return;
   }
 }

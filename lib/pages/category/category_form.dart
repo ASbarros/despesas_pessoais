@@ -16,7 +16,7 @@ class CategoryForm extends StatefulWidget {
 class _CategoryFormState extends State<CategoryForm> {
   final _titleController = TextEditingController();
   final _repository = CategoryRepository();
-  CategoryModel category;
+  CategoryModel category = CategoryModel(title: '');
 
   @override
   void initState() {
@@ -68,10 +68,10 @@ class _CategoryFormState extends State<CategoryForm> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                RaisedButton(
+                ElevatedButton(
                   onPressed: _submitForm,
-                  color: Theme.of(context).primaryColor,
-                  textColor: Theme.of(context).textTheme.button.color,
+                  //color: Theme.of(context).primaryColor,
+                  //textColor: Theme.of(context).textTheme.button.color,
                   child: const Text('Salvar'),
                 ),
               ],

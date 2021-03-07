@@ -55,18 +55,25 @@ class ChartPieProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  int get touchedIndex => _touchedIndex;
+  int get touchedIndex => _touchedIndex ?? 0;
 
   List<PieChartSectionData> showingSections() {
     _loadData();
 
     final res = <PieChartSectionData>[];
-    final total = _data.fold(0.0, (previousValue, element) {
+    var total = 0.0;
+    /* = _data.fold(0.0, (previousValue, element) {
       if (idsCategoriesSelected.contains(element.idCategory)) {
         return previousValue;
       }
-      return previousValue += element.totalValue;
-    });
+      return previousValue = element.totalValue + previousValue!;
+    }); */
+    for (var item in _data) {
+      if (idsCategoriesSelected.contains(item.idCategory)) {
+        continue;
+      }
+      total += item.totalValue;
+    }
     for (var i = 0; i < _data.length; i++) {
       if (idsCategoriesSelected.contains(_data[i].idCategory)) continue;
       final isTouched = i == touchedIndex;

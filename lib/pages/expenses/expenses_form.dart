@@ -155,8 +155,8 @@ class _ExpensesFormState extends State<ExpensesForm> {
                 ),
                 Expanded(
                   flex: 5,
-                  child: FlatButton(
-                    textColor: Theme.of(context).primaryColor,
+                  child: TextButton(
+                    // textColor: Theme.of(context).primaryColor,
                     onPressed: widget.id != null && widget.id > 0
                         ? () => _showDatePicker(_expensesModel.date)
                         : _showDatePicker,
@@ -172,10 +172,10 @@ class _ExpensesFormState extends State<ExpensesForm> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                RaisedButton(
+                ElevatedButton(
                   onPressed: _submitForm,
-                  color: Theme.of(context).primaryColor,
-                  textColor: Theme.of(context).textTheme.button.color,
+                  //color: Theme.of(context).primaryColor,
+                  //textColor: Theme.of(context).textTheme.button.color,
                   child: const Text('Salvar'),
                 ),
               ],

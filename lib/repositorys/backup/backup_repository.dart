@@ -61,7 +61,7 @@ class BackupRepository {
       final driveApi = drive.DriveApi(authenticateClient);
 
       final list = await driveApi.files.list();
-      drive.Media files;
+      var files;
       for (var i = 0; i < list.files.length; i++) {
         if (list.files[i].name.contains(_nameFile)) {
           files = await driveApi.files.get(list.files[i].id,

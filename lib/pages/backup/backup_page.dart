@@ -9,8 +9,7 @@ class BackupPage extends StatefulWidget {
 class _BackupPageState extends State<BackupPage> {
   final _repository = BackupRepository();
 
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
-  bool done;
+  bool done = false;
 
   @override
   void initState() {
@@ -23,16 +22,17 @@ class _BackupPageState extends State<BackupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
       appBar: AppBar(
         title: Text('Backup'),
       ),
       body: Center(
         child: Visibility(
+          replacement: CircularProgressIndicator(),
+          visible: done,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              RaisedButton.icon(
+              ElevatedButton.icon(
                 icon: Icon(Icons.upload_sharp),
                 label: Text('Backup'),
                 onPressed: () async {
@@ -44,7 +44,7 @@ class _BackupPageState extends State<BackupPage> {
                     setState(() {
                       done = true;
                     });
-                    _scaffoldKey.currentState.showSnackBar(SnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       action: SnackBarAction(
                         label: 'OK',
                         onPressed: () {},
@@ -56,7 +56,7 @@ class _BackupPageState extends State<BackupPage> {
                     setState(() {
                       done = true;
                     });
-                    _scaffoldKey.currentState.showSnackBar(SnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       backgroundColor: Colors.red,
                       action: SnackBarAction(
                         label: 'OK',
@@ -71,7 +71,7 @@ class _BackupPageState extends State<BackupPage> {
               SizedBox(
                 height: 20,
               ),
-              RaisedButton.icon(
+              ElevatedButton.icon(
                 label: Text('Restaurar'),
                 icon: Icon(Icons.file_download),
                 onPressed: () async {
@@ -83,7 +83,7 @@ class _BackupPageState extends State<BackupPage> {
                     setState(() {
                       done = true;
                     });
-                    _scaffoldKey.currentState.showSnackBar(SnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       action: SnackBarAction(
                         label: 'OK',
                         onPressed: () {},
@@ -95,7 +95,7 @@ class _BackupPageState extends State<BackupPage> {
                     setState(() {
                       done = true;
                     });
-                    _scaffoldKey.currentState.showSnackBar(SnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       backgroundColor: Colors.red,
                       action: SnackBarAction(
                         label: 'OK',
@@ -109,8 +109,6 @@ class _BackupPageState extends State<BackupPage> {
               ),
             ],
           ),
-          replacement: CircularProgressIndicator(),
-          visible: done,
         ),
       ),
     );
