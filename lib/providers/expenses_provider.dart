@@ -7,12 +7,28 @@ class ExpensesProvider with ChangeNotifier {
   final _repository = ExpensesRepository();
   List<ExpensesModel> _items = [];
   String _search = '';
+  DateTime _startDate;
+  DateTime _endDate;
 
   ExpensesProvider() {
     _init();
   }
+
   Future<void> _init() async {
     _items = await _repository.fetchExpenses();
+    notifyListeners();
+  }
+
+  DateTime get startDate => _startDate;
+
+  set startDate(DateTime date) {
+    _startDate = date;
+    notifyListeners();
+  }
+
+  DateTime get endDate => _endDate;
+  set endDate(DateTime date) {
+    _endDate = date;
     notifyListeners();
   }
 
@@ -26,13 +42,26 @@ class ExpensesProvider with ChangeNotifier {
   List<ExpensesModel> get items => [..._items];
 
   List<ExpensesModel> get filteredExpenses {
-    final filteredExpenses = <ExpensesModel>[];
-    if (_search.isEmpty) {
-      filteredExpenses.addAll(_items);
-    } else {
-      filteredExpenses.addAll(_items.where((element) =>
-          element.title.toLowerCase().contains(_search.toLowerCase())));
+    var filteredExpenses = items;
+    if (_search.isNotEmpty) {
+      filteredExpenses = filteredExpenses
+          .where((element) =>
+              element.title.toLowerCase().contains(_search.toLowerCase()))
+          .toList();
     }
+
+    if (_startDate != null) {
+      filteredExpenses = filteredExpenses
+          .where((element) => element.date.isAfter(_startDate))
+          .toList();
+    }
+
+    if (_endDate != null) {
+      filteredExpenses = filteredExpenses
+          .where((element) => element.date.isBefore(_endDate))
+          .toList();
+    }
+
     return filteredExpenses;
   }
 
@@ -46,18 +75,20 @@ class ExpensesProvider with ChangeNotifier {
   double get totalValue => filteredExpenses.fold(
       0.0, (previousValue, element) => previousValue += element.value);
 
-  void add(ExpensesModel expense) async {
+  Future<void> add(ExpensesModel expense) async {
     expense.id = await _repository.insert(expense);
     _items.add(expense);
     notifyListeners();
+    return;
   }
 
-  void update(ExpensesModel obj) async {
+  Future<void> update(ExpensesModel obj) async {
     await _repository.update(obj);
     _items.removeWhere((element) => element.id == obj.id);
     _items.add(obj);
     _items.sort((a, b) => a.title.compareTo(b.title));
     notifyListeners();
+    return;
   }
 
   void delete(int id) async {
