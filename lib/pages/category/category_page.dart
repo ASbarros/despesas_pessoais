@@ -1,6 +1,8 @@
-import 'package:financas_pessoais/providers/category_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../common/custom_drawer/my_drawer.dart';
+import '../../providers/category_provider.dart';
 
 import 'category_form.dart';
 
@@ -37,6 +39,7 @@ class _CategoryPageState extends State<CategoryPage> {
               onPressed: () => _openCategoryFormModal(context))
         ],
       ),
+      drawer: MyDrawer(),
       body: Consumer<CategoryProvider>(builder: (_, categoryProvider, __) {
         final categories = categoryProvider.items;
         return Center(

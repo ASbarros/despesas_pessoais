@@ -7,6 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'pages/home_page.dart';
 import 'providers/chart_pie_provider.dart';
 import 'providers/expenses_provider.dart';
+import 'providers/page_provider.dart';
 
 void main() => runApp(MyApp());
 
@@ -26,6 +27,10 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => ChartPieProvider(),
+          lazy: false,
+        ),
+        ChangeNotifierProvider(
+          create: (_) => PageProvider(),
           lazy: false,
         ),
       ],

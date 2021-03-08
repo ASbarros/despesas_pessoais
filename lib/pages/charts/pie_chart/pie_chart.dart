@@ -1,8 +1,10 @@
-import 'package:financas_pessoais/providers/chart_pie_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../../../common/custom_drawer/my_drawer.dart';
+
+import '../../../providers/chart_pie_provider.dart';
 import 'samples/pie_chart_page.dart';
 
 class ChartsPage extends StatelessWidget {
@@ -22,6 +24,7 @@ class ChartsPage extends StatelessWidget {
               }),
         ],
       ),
+      drawer: MyDrawer(),
       body: Container(
         color: const Color(0xffeceaeb),
         child: Padding(
