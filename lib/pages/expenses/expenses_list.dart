@@ -17,19 +17,23 @@ class _ExpensesListState extends State<ExpensesList> {
     return Consumer<ExpensesProvider>(builder: (_, expensesProvider, __) {
       final filteredExpenses = expensesProvider.filteredExpenses;
       if (filteredExpenses.isEmpty) {
-        return Column(
-          children: [
-            const SizedBox(height: 20),
-            Text(
-              'Nenhum Gasto cadastrado!',
-              style: Theme.of(context).textTheme.headline6,
-            ),
-            const SizedBox(height: 20),
-            Container(
+        return SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 20),
+              Text(
+                'Nenhum Gasto cadastrado!',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              const SizedBox(height: 20),
+              Container(
                 height: 200,
-                child: Image.asset('assets/images/waiting.png',
-                    fit: BoxFit.cover)),
-          ],
+                child:
+                    Image.asset('assets/images/waiting.png', fit: BoxFit.cover),
+              ),
+            ],
+          ),
         );
       } else {
         return ListView.builder(

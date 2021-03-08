@@ -37,7 +37,7 @@ class ExpensesModel extends ModelBase {
       'id': id,
       'title': title,
       'value': value,
-      'date': date?.millisecondsSinceEpoch,
+      'date': date.millisecondsSinceEpoch,
       'category': category
     };
   }

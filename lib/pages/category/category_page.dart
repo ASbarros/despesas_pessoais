@@ -10,8 +10,6 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage> {
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
-
   @override
   void initState() {
     super.initState();
@@ -28,7 +26,6 @@ class _CategoryPageState extends State<CategoryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
       appBar: AppBar(
         title: const Text('Categorias'),
         actions: [
@@ -91,7 +88,8 @@ class _CategoryPageState extends State<CategoryPage> {
                           onPressed: () async {
                             final res = await categoryProvider.delete(item.id);
                             if (!res) {
-                              _scaffoldKey.currentState.showSnackBar(SnackBar(
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
                                 action: SnackBarAction(
                                   label: 'OK',
                                   onPressed: () {},
