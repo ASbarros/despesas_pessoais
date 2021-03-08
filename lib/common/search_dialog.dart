@@ -47,7 +47,23 @@ class SearchDialog extends StatelessWidget {
                   children: [
                     Text('Data final: '),
                     IconButton(
-                        icon: Icon(FontAwesomeIcons.calendar), onPressed: null),
+                      icon: Icon(FontAwesomeIcons.calendar),
+                      onPressed: () {
+                        showDatePicker(
+                          context: context,
+                          initialDate: expensesProvider.endDate,
+                          firstDate: DateTime(2020),
+                          lastDate: DateTime.now(),
+                        ).then((pickedDate) {
+                          if (pickedDate == null) {
+                            return;
+                          }
+
+                          expensesProvider.endDate = pickedDate;
+                          Navigator.of(context).pop();
+                        });
+                      },
+                    ),
                     Text('busta de datas'),
                   ],
                 ),

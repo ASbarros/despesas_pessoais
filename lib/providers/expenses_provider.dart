@@ -7,8 +7,8 @@ class ExpensesProvider with ChangeNotifier {
   final _repository = ExpensesRepository();
   List<ExpensesModel> _items = [];
   String _search = '';
-  DateTime _startDate;
-  DateTime _endDate;
+  DateTime _startDate = DateTime.now();
+  DateTime _endDate = DateTime.now();
 
   ExpensesProvider() {
     _init();
