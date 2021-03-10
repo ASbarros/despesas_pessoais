@@ -26,7 +26,8 @@ class SearchDialog extends StatelessWidget {
                       onPressed: () {
                         showDatePicker(
                           context: context,
-                          initialDate: expensesProvider.startDate,
+                          initialDate:
+                              expensesProvider.startDate ?? DateTime.now(),
                           firstDate: DateTime(2020),
                           lastDate: DateTime.now(),
                         ).then((pickedDate) {
@@ -51,7 +52,8 @@ class SearchDialog extends StatelessWidget {
                       onPressed: () {
                         showDatePicker(
                           context: context,
-                          initialDate: expensesProvider.endDate,
+                          initialDate:
+                              expensesProvider.endDate ?? DateTime.now(),
                           firstDate: DateTime(2020),
                           lastDate: DateTime.now(),
                         ).then((pickedDate) {
