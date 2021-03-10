@@ -1,3 +1,4 @@
+import 'package:financas_pessoais/pages/backup/backup_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../pages/category/category_page.dart';
@@ -65,7 +66,7 @@ class MyDrawer extends StatelessWidget {
               );
             },
           ),
-          /* DrawerTile(
+          DrawerTile(
             iconData: Icons.backup,
             title: 'Backup',
             onTap: () {
@@ -77,7 +78,7 @@ class MyDrawer extends StatelessWidget {
                 ),
               );
             },
-          ), */
+          ),
         ],
       ),
     );
