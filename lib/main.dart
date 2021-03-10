@@ -1,3 +1,4 @@
+import 'package:financas_pessoais/providers/backup_provider.dart';
 import 'package:financas_pessoais/providers/category_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,6 +32,10 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => PageProvider(),
+          lazy: false,
+        ),
+        ChangeNotifierProvider(
+          create: (_) => BackupProvider(),
           lazy: false,
         ),
       ],
