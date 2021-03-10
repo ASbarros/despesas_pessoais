@@ -17,6 +17,20 @@ class ExpensesRepository {
     return expenses;
   }
 
+  Future<List<Map<String, dynamic>>> fetchExpensesToMap() async {
+    final list = await _database.getAll(ExpensesTable.table);
+
+    return list;
+  }
+
+  Future<void> restore(categoriesList) async {
+    for (final item in categoriesList) {
+      await insert(ExpensesModel.fromMap(item));
+    }
+
+    return;
+  }
+
   Future<ExpensesModel> getById(int id) async =>
       ExpensesModel.fromMap(await _database.getById(ExpensesTable.table, id));
 

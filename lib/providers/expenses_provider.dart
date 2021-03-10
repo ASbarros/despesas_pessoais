@@ -7,8 +7,8 @@ class ExpensesProvider with ChangeNotifier {
   final _repository = ExpensesRepository();
   List<ExpensesModel> _items = [];
   String _search = '';
-  DateTime _startDate = DateTime.now();
-  DateTime _endDate = DateTime.now();
+  DateTime _startDate;
+  DateTime _endDate;
 
   ExpensesProvider() {
     _init();
@@ -95,5 +95,11 @@ class ExpensesProvider with ChangeNotifier {
     _items.removeWhere((tr) => tr.id == id);
     await _repository.delete(id);
     notifyListeners();
+  }
+
+  Future<void> restore(list) async {
+    await _repository.restore(list);
+    await _init();
+    return;
   }
 }

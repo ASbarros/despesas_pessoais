@@ -45,4 +45,10 @@ class CategoryProvider with ChangeNotifier {
       return false;
     }
   }
+
+  Future<void> restore(list) async {
+    await _repository.restore(list);
+    await _init();
+    return;
+  }
 }

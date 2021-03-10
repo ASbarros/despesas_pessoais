@@ -17,6 +17,20 @@ class CategoryRepository {
     return categories;
   }
 
+  Future<List<Map<String, dynamic>>> fetchCategoriesToMap() async {
+    final list = await _database.getAll(CategoriesTable.table);
+
+    return list;
+  }
+
+  Future<void> restore(categoriesList) async {
+    for (final item in categoriesList) {
+      await insert(CategoryModel.fromMap(item));
+    }
+
+    return;
+  }
+
   Future<CategoryModel> getById(int id) async =>
       CategoryModel.fromMap(await _database.getById(CategoriesTable.table, id));
 
