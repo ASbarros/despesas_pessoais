@@ -1,3 +1,4 @@
+import 'package:financas_pessoais/common/custom_drawer/my_drawer.dart';
 import 'package:flutter/material.dart';
 
 import '../../providers/backup_provider.dart';
@@ -10,6 +11,7 @@ class BackupPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Backup'),
       ),
+      drawer: MyDrawer(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

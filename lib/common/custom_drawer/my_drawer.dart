@@ -1,9 +1,5 @@
-import 'package:financas_pessoais/pages/backup/backup_page.dart';
 import 'package:flutter/material.dart';
 
-import '../../pages/category/category_page.dart';
-import '../../pages/charts/pie_chart/pie_chart.dart';
-import '../../pages/home_page.dart';
 import 'drawer_tile.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -29,13 +25,7 @@ class MyDrawer extends StatelessWidget {
             title: 'Início',
             page: 0,
             onTap: () {
-              Navigator.of(context).pop();
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (ctx) => MyHomePage(),
-                ),
-              );
+              Navigator.pushReplacementNamed(context, '/home-page');
             },
           ),
           DrawerTile(
@@ -43,13 +33,7 @@ class MyDrawer extends StatelessWidget {
             title: 'Categorias',
             page: 1,
             onTap: () {
-              Navigator.of(context).pop();
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (ctx) => CategoryPage(),
-                ),
-              );
+              Navigator.pushReplacementNamed(context, '/category-page');
             },
           ),
           DrawerTile(
@@ -57,26 +41,14 @@ class MyDrawer extends StatelessWidget {
             title: 'Gráficos',
             page: 2,
             onTap: () {
-              Navigator.of(context).pop();
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (ctx) => ChartsPage(),
-                ),
-              );
+              Navigator.pushReplacementNamed(context, '/charts-page');
             },
           ),
           DrawerTile(
             iconData: Icons.backup,
             title: 'Backup',
             onTap: () {
-              Navigator.of(context).pop();
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (ctx) => BackupPage(),
-                ),
-              );
+              Navigator.pushReplacementNamed(context, '/backup-page');
             },
           ),
         ],

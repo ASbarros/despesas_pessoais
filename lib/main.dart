@@ -1,3 +1,4 @@
+import 'package:financas_pessoais/pages/category/category_page.dart';
 import 'package:financas_pessoais/providers/backup_provider.dart';
 import 'package:financas_pessoais/providers/category_provider.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'pages/backup/backup_page.dart';
+import 'pages/charts/pie_chart/pie_chart.dart';
 import 'pages/home_page.dart';
 import 'providers/chart_pie_provider.dart';
 import 'providers/expenses_provider.dart';
@@ -71,7 +74,23 @@ class MyApp extends StatelessWidget {
         supportedLocales: const [
           Locale('pt', 'BR'),
         ],
-        home: MyHomePage(),
+        onGenerateRoute: (settings) {
+          switch (settings.name) {
+            case '/category-page':
+              return MaterialPageRoute(builder: (_) => CategoryPage());
+              break;
+            case '/charts-page':
+              return MaterialPageRoute(builder: (_) => ChartsPage());
+              break;
+            case '/backup-page':
+              return MaterialPageRoute(builder: (_) => BackupPage());
+              break;
+            case '/home-page':
+            case '/':
+            default:
+              return MaterialPageRoute(builder: (_) => MyHomePage());
+          }
+        },
       ),
     );
   }
