@@ -59,7 +59,7 @@ class _CategoryFormState extends State<CategoryForm> {
       elevation: 5,
       child: Padding(
         padding: const EdgeInsets.all(10),
-        child: Column(
+        child: ListView(
           children: [
             TextField(
               controller: _titleController,
