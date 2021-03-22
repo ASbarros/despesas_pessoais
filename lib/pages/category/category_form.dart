@@ -1,9 +1,9 @@
-import 'package:financas_pessoais/providers/category_provider.dart';
-import 'package:financas_pessoais/repositorys/category_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/category_model.dart';
+import '../../providers/category_provider.dart';
+import '../../repositorys/category_repository.dart';
 
 class CategoryForm extends StatefulWidget {
   final int? id;
@@ -59,7 +59,7 @@ class _CategoryFormState extends State<CategoryForm> {
       elevation: 5,
       child: Padding(
         padding: const EdgeInsets.all(10),
-        child: Column(
+        child: ListView(
           children: [
             TextField(
               controller: _titleController,
@@ -72,8 +72,6 @@ class _CategoryFormState extends State<CategoryForm> {
               children: [
                 ElevatedButton(
                   onPressed: _submitForm,
-                  //color: Theme.of(context).primaryColor,
-                  //textColor: Theme.of(context).textTheme.button.color,
                   child: const Text('Salvar'),
                 ),
               ],
