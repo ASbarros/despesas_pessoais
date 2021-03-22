@@ -44,14 +44,6 @@ class MyDrawer extends StatelessWidget {
               Navigator.pushReplacementNamed(context, '/charts-page');
             },
           ),
-          DrawerTile(
-            iconData: Icons.backup,
-            page: 3,
-            title: 'Backup',
-            onTap: () {
-              Navigator.pushReplacementNamed(context, '/backup-page');
-            },
-          ),
         ],
       ),
     );
