@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class MyClipper extends CustomClipper<Path> {
   int size;
-  MyClipper({this.size});
+  MyClipper({required this.size});
   @override
   Path getClip(Size size) {
     final p = Path();

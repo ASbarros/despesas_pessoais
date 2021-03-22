@@ -4,7 +4,10 @@ class ChartPieDataModel {
   final String category;
   final int idCategory;
   double totalValue;
-  ChartPieDataModel({this.category, this.totalValue, this.idCategory});
+  ChartPieDataModel(
+      {required this.category,
+      required this.totalValue,
+      required this.idCategory});
 
   @override
   String toString() =>
@@ -19,7 +22,7 @@ class ChartPieDataModel {
   }
 
   factory ChartPieDataModel.fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
+    //if (map == null) return null;
 
     return ChartPieDataModel(
       category: map['category'],

@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../database/tables/expenses_table.dart';
@@ -12,11 +11,11 @@ class ExpensesModel extends ModelBase {
   final int category;
 
   ExpensesModel(
-      {int id,
-      @required String title,
-      @required this.value,
-      @required this.category,
-      @required this.date})
+      {int? id,
+      required String title,
+      required this.value,
+      required this.category,
+      required this.date})
       : super(id: id, title: title);
 
   set valueOfString(String source) {
@@ -44,7 +43,7 @@ class ExpensesModel extends ModelBase {
 
   String toJson() => json.encode(toMap());
   factory ExpensesModel.fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
+    //if (map == null) return null;
 
     return ExpensesModel(
       id: map['id'] as int,

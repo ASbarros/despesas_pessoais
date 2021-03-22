@@ -78,13 +78,10 @@ class MyApp extends StatelessWidget {
           switch (settings.name) {
             case '/category-page':
               return MaterialPageRoute(builder: (_) => CategoryPage());
-              break;
             case '/charts-page':
               return MaterialPageRoute(builder: (_) => ChartsPage());
-              break;
             case '/backup-page':
               return MaterialPageRoute(builder: (_) => BackupPage());
-              break;
             case '/home-page':
             case '/':
             default:

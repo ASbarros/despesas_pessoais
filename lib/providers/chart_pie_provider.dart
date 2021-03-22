@@ -101,7 +101,7 @@ class ChartPieProvider with ChangeNotifier {
     final res = <Widget>[];
     for (var i = 0; i < _data.length; i++) {
       res.add(Indicator(
-        color: _colors[i],
+        color: _colors[i]!,
         text: _data[i].category,
         idCategory: _data[i].idCategory,
         selected: !idsCategoriesSelected.contains(_data[i].idCategory),

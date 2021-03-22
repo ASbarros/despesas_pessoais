@@ -11,12 +11,12 @@ class Indicator extends StatelessWidget {
   final int idCategory;
 
   const Indicator({
-    Key key,
-    this.color,
-    this.text,
+    Key? key,
+    required this.color,
+    required this.text,
     this.selected = true,
     this.size = 16,
-    this.idCategory,
+    required this.idCategory,
   }) : super(key: key);
 
   @override

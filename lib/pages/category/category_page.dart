@@ -17,7 +17,7 @@ class _CategoryPageState extends State<CategoryPage> {
     super.initState();
   }
 
-  void _openCategoryFormModal(BuildContext context, [int id]) {
+  void _openCategoryFormModal(BuildContext context, [int? id]) {
     showModalBottomSheet(
         context: context,
         builder: (_) {
@@ -89,7 +89,7 @@ class _CategoryPageState extends State<CategoryPage> {
                           color: Theme.of(context).errorColor,
                           icon: const Icon(Icons.delete),
                           onPressed: () async {
-                            final res = await categoryProvider.delete(item.id);
+                            final res = await categoryProvider.delete(item.id!);
                             if (!res) {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(

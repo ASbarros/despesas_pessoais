@@ -39,7 +39,7 @@ class ExpensesRepository {
   }
 
   Future<int> update(ExpensesModel obj) async {
-    return _database.update(obj, obj.id);
+    return _database.update(obj, obj.id!);
   }
 
   Future<int> insert(ExpensesModel obj) async {

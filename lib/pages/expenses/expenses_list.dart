@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ExpensesList extends StatefulWidget {
-  const ExpensesList({Key key}) : super(key: key);
+  const ExpensesList({Key? key}) : super(key: key);
 
   @override
   _ExpensesListState createState() => _ExpensesListState();
@@ -75,7 +75,7 @@ class _ExpensesListState extends State<ExpensesList> {
                 trailing: IconButton(
                     color: Theme.of(context).errorColor,
                     icon: const Icon(Icons.delete),
-                    onPressed: () => expensesProvider.delete(tr.id)),
+                    onPressed: () => expensesProvider.delete(tr.id!)),
               ),
             );
           },

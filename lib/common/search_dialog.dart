@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 class SearchDialog extends StatelessWidget {
   final String initialText;
 
-  const SearchDialog({Key key, this.initialText = ''}) : super(key: key);
+  const SearchDialog({Key? key, this.initialText = ''}) : super(key: key);
 
   void _openSelectDateModal(BuildContext context) {
     showModalBottomSheet(
