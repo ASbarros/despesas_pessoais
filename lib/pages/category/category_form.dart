@@ -72,8 +72,6 @@ class _CategoryFormState extends State<CategoryForm> {
               children: [
                 ElevatedButton(
                   onPressed: _submitForm,
-                  //color: Theme.of(context).primaryColor,
-                  //textColor: Theme.of(context).textTheme.button.color,
                   child: const Text('Salvar'),
                 ),
               ],
