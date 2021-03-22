@@ -1,14 +1,12 @@
-import 'package:financas_pessoais/pages/category/category_page.dart';
-import 'package:financas_pessoais/providers/backup_provider.dart';
-import 'package:financas_pessoais/providers/category_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
 
-import 'pages/backup/backup_page.dart';
+import 'pages/category/category_page.dart';
 import 'pages/charts/pie_chart/pie_chart.dart';
 import 'pages/home_page.dart';
+import 'providers/category_provider.dart';
 import 'providers/chart_pie_provider.dart';
 import 'providers/expenses_provider.dart';
 import 'providers/page_provider.dart';
@@ -35,10 +33,6 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => PageProvider(),
-          lazy: false,
-        ),
-        ChangeNotifierProvider(
-          create: (_) => BackupProvider(),
           lazy: false,
         ),
       ],
@@ -80,8 +74,6 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(builder: (_) => CategoryPage());
             case '/charts-page':
               return MaterialPageRoute(builder: (_) => ChartsPage());
-            case '/backup-page':
-              return MaterialPageRoute(builder: (_) => BackupPage());
             case '/home-page':
             case '/':
             default:
