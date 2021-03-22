@@ -39,7 +39,7 @@ class CategoryRepository {
   }
 
   Future<int> update(CategoryModel obj) async {
-    return _database.update(obj, obj.id);
+    return _database.update(obj, obj.id!);
   }
 
   Future<int> insert(CategoryModel obj) async {

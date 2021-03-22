@@ -46,6 +46,7 @@ class MyDrawer extends StatelessWidget {
           ),
           DrawerTile(
             iconData: Icons.backup,
+            page: 3,
             title: 'Backup',
             onTap: () {
               Navigator.pushReplacementNamed(context, '/backup-page');

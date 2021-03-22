@@ -3,8 +3,8 @@ import 'package:intl/intl.dart';
 
 class FooterHome extends StatelessWidget {
   const FooterHome({
-    Key key,
-    @required this.totalValue,
+    Key? key,
+    required this.totalValue,
   }) : super(key: key);
 
   final double totalValue;

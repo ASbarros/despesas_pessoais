@@ -9,7 +9,11 @@ class DrawerTile extends StatelessWidget {
   final Function() onTap;
   final int page;
 
-  const DrawerTile({this.iconData, this.onTap, this.title, this.page});
+  const DrawerTile(
+      {required this.iconData,
+      required this.onTap,
+      required this.title,
+      required this.page});
 
   @override
   Widget build(BuildContext context) {

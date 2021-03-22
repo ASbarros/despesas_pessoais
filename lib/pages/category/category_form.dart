@@ -6,9 +6,9 @@ import 'package:provider/provider.dart';
 import '../../models/category_model.dart';
 
 class CategoryForm extends StatefulWidget {
-  final int id;
+  final int? id;
 
-  const CategoryForm({Key key, this.id}) : super(key: key);
+  const CategoryForm({Key? key, this.id}) : super(key: key);
   @override
   _CategoryFormState createState() => _CategoryFormState();
 }
@@ -22,13 +22,15 @@ class _CategoryFormState extends State<CategoryForm> {
   void initState() {
     super.initState();
 
-    if (widget.id != null && widget.id > 0) {
-      _repository.getById(widget.id).then((value) {
+    if (widget.id != null && widget.id! > 0) {
+      _repository.getById(widget.id!).then((value) {
         setState(() {
           category = value;
           _titleController.text = value.title;
         });
-      }).catchError(print);
+      }).catchError((error, stackTrace) {
+        print('error: $error');
+      });
     }
   }
 
@@ -44,7 +46,7 @@ class _CategoryFormState extends State<CategoryForm> {
       }
 
       category = CategoryModel(title: title);
-      if (widget.id != null && widget.id > 0) {
+      if (widget.id != null && widget.id! > 0) {
         category.id = widget.id;
         categoryProvider.update(category);
       } else {

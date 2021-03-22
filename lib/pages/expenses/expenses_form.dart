@@ -9,9 +9,9 @@ import 'package:provider/provider.dart';
 
 class ExpensesForm extends StatefulWidget {
   final void Function(ExpensesModel) onSubmit;
-  final int id;
+  final int? id;
 
-  const ExpensesForm({Key key, @required this.onSubmit, this.id})
+  const ExpensesForm({Key? key, required this.onSubmit, this.id})
       : super(key: key);
 
   @override
@@ -19,7 +19,8 @@ class ExpensesForm extends StatefulWidget {
 }
 
 class _ExpensesFormState extends State<ExpensesForm> {
-  ExpensesModel _expensesModel;
+  var _expensesModel =
+      ExpensesModel(title: '', value: 0.0, category: 0, date: DateTime.now());
   final _titleController = TextEditingController();
   final _valueController = TextEditingController(text: '#,##');
 
@@ -34,10 +35,10 @@ class _ExpensesFormState extends State<ExpensesForm> {
     final value = double.tryParse(
             _valueController.text.replaceAll('.', '').replaceAll(',', '.')) ??
         0.0;
-    if (title.isEmpty || value <= 0 || _selectedDate == null) {
+    if (title.isEmpty || value <= 0) {
       return;
     }
-    _expensesModel = ExpensesModel(
+    var _expensesModel = ExpensesModel(
         id: widget.id,
         title: title,
         value: value,
@@ -47,7 +48,7 @@ class _ExpensesFormState extends State<ExpensesForm> {
     widget.onSubmit(_expensesModel);
   }
 
-  void _showDatePicker([DateTime date]) {
+  void _showDatePicker([DateTime? date]) {
     showDatePicker(
       context: context,
       initialDate: date ?? DateTime.now(),
@@ -70,8 +71,8 @@ class _ExpensesFormState extends State<ExpensesForm> {
   }
 
   void init() async {
-    if (widget.id != null && widget.id > 0) {
-      _expensesModel = await _repositoryExpense.getById(widget.id);
+    if (widget.id != null && widget.id! > 0) {
+      _expensesModel = await _repositoryExpense.getById(widget.id!);
       _titleController.text = _expensesModel.title;
       _valueController.text = _expensesModel.valueFormatted;
       _selectedDate = _expensesModel.date;
@@ -87,7 +88,7 @@ class _ExpensesFormState extends State<ExpensesForm> {
 
     final categories = categoryProvider.items;
     if (dropdownValue == 0) {
-      dropdownValue = categories.first.id;
+      dropdownValue = categories.first.id!;
     }
     return Card(
       elevation: 5,
@@ -127,7 +128,7 @@ class _ExpensesFormState extends State<ExpensesForm> {
                           ),
                           onChanged: (newValue) {
                             setState(() {
-                              dropdownValue = newValue;
+                              dropdownValue = newValue!;
                             });
                           },
                           items:
@@ -157,7 +158,7 @@ class _ExpensesFormState extends State<ExpensesForm> {
                   flex: 5,
                   child: TextButton(
                     // textColor: Theme.of(context).primaryColor,
-                    onPressed: widget.id != null && widget.id > 0
+                    onPressed: widget.id != null && widget.id! > 0
                         ? () => _showDatePicker(_expensesModel.date)
                         : _showDatePicker,
                     child: const Text(

@@ -1,22 +1,21 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-
 import '../database/tables/categories_table.dart';
 import 'model_base.dart';
 
 class CategoryModel extends ModelBase {
-  CategoryModel({int id, @required String title}) : super(id: id, title: title);
+  CategoryModel({int? id, required String title}) : super(id: id, title: title);
 
   @override
   Map<String, Object> toMap() {
-    return {'id': id, 'title': title};
+    if (id != null) return {'id': id!, 'title': title};
+    return {'title': title};
   }
 
   String toJson() => json.encode(toMap());
 
   factory CategoryModel.fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
+    //if (map == null) return null;
 
     return CategoryModel(
       id: map['id'] as int,

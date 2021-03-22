@@ -26,7 +26,7 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (_) {
           final expensesProvider = Provider.of<ExpensesProvider>(context);
           return ExpensesForm(onSubmit: (obj) async {
-            if (obj.id != null && obj.id > 0) {
+            if (obj.id != null && obj.id! > 0) {
               await expensesProvider.update(obj);
             } else {
               await expensesProvider.add(obj);

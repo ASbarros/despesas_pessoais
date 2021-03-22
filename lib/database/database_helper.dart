@@ -12,9 +12,9 @@ class DatabaseHelper {
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
 
-  static Database _database;
+  static Database? _database;
 
-  Future<Database> get database async {
+  Future<Database?> get database async {
     if (_database != null) {
       return _database;
     } else {
@@ -36,38 +36,38 @@ class DatabaseHelper {
 
   Future<int> insert(ModelBase obj) async {
     final db = await instance.database;
-    final res = await db.insert(obj.table, obj.toMap());
+    final res = await db!.insert(obj.table, obj.toMap());
     return res;
   }
 
   Future<int> update(ModelBase obj, int id) async {
     final db = await instance.database;
-    final res = await db
+    final res = await db!
         .update(obj.table, obj.toMap(), where: 'id = ?', whereArgs: [id]);
     return res;
   }
 
   Future<List<Map<String, dynamic>>> getAll(String table) async {
     final db = await instance.database;
-    final res = await db.query(table, orderBy: 'title asc');
+    final res = await db!.query(table, orderBy: 'title asc');
     return res;
   }
 
   Future<Map<String, dynamic>> getById(String table, int id) async {
     final db = await instance.database;
-    final res = await db.query(table,
+    final res = await db!.query(table,
         columns: ['*'], where: 'id = ?', whereArgs: [id], limit: 1);
     return res[0];
   }
 
   Future<int> delete(int id, String table) async {
     final db = await instance.database;
-    return db.delete(table, where: 'id = ?', whereArgs: [id]);
+    return db!.delete(table, where: 'id = ?', whereArgs: [id]);
   }
 
   Future<void> clearTable(String table) async {
     final db = await instance.database;
-    await db.rawQuery('DELETE FROM $table');
+    await db!.rawQuery('DELETE FROM $table');
     return;
   }
 }

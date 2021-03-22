@@ -8,7 +8,7 @@ import 'chart_bar.dart';
 class ChartCard extends StatelessWidget with PreferredSizeWidget {
   final List<ExpensesModel> recentTransactions;
 
-  const ChartCard({Key key, @required this.recentTransactions})
+  const ChartCard({Key? key, required this.recentTransactions})
       : super(key: key);
 
   List<Map<String, Object>> get groupedTransactions {

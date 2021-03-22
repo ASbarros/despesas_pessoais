@@ -7,8 +7,8 @@ class ExpensesProvider with ChangeNotifier {
   final _repository = ExpensesRepository();
   List<ExpensesModel> _items = [];
   String _search = '';
-  DateTime _startDate;
-  DateTime _endDate;
+  DateTime? _startDate;
+  DateTime? _endDate;
 
   ExpensesProvider() {
     _init();
@@ -19,15 +19,15 @@ class ExpensesProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  DateTime get startDate => _startDate;
+  DateTime? get startDate => _startDate;
 
-  set startDate(DateTime date) {
+  set startDate(DateTime? date) {
     _startDate = date;
     notifyListeners();
   }
 
-  DateTime get endDate => _endDate;
-  set endDate(DateTime date) {
+  DateTime? get endDate => _endDate;
+  set endDate(DateTime? date) {
     _endDate = date;
     notifyListeners();
   }
@@ -52,13 +52,13 @@ class ExpensesProvider with ChangeNotifier {
 
     if (_startDate != null) {
       filteredExpenses = filteredExpenses
-          .where((element) => element.date.isAfter(_startDate))
+          .where((element) => element.date.isAfter(_startDate!))
           .toList();
     }
 
     if (_endDate != null) {
       filteredExpenses = filteredExpenses
-          .where((element) => element.date.isBefore(_endDate))
+          .where((element) => element.date.isBefore(_endDate!))
           .toList();
     }
 
