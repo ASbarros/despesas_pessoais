@@ -62,12 +62,7 @@ class ChartPieProvider with ChangeNotifier {
 
     final res = <PieChartSectionData>[];
     var total = 0.0;
-    /* = _data.fold(0.0, (previousValue, element) {
-      if (idsCategoriesSelected.contains(element.idCategory)) {
-        return previousValue;
-      }
-      return previousValue = element.totalValue + previousValue!;
-    }); */
+
     for (var item in _data) {
       if (idsCategoriesSelected.contains(item.idCategory)) {
         continue;

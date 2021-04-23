@@ -39,6 +39,7 @@ class ExpensesRepository {
   }
 
   Future<int> update(ExpensesModel obj) async {
+    print(obj.toMap());
     return _database.update(obj, obj.id!);
   }
 

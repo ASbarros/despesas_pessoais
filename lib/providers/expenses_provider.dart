@@ -16,6 +16,7 @@ class ExpensesProvider with ChangeNotifier {
 
   Future<void> _init() async {
     _items = await _repository.fetchExpenses();
+    _items.sort((a, b) => b.date.toString().compareTo(a.date.toString()));
     notifyListeners();
   }
 
