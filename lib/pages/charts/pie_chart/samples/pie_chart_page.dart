@@ -1,5 +1,6 @@
 import 'package:financas_pessoais/providers/chart_pie_provider.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -34,13 +35,17 @@ class PieChartPageState extends State<PieChartPage> {
                           PieChartData(
                               pieTouchData: PieTouchData(
                                   touchCallback: (pieTouchResponse) {
-                                if (pieTouchResponse.touchInput
-                                        is FlLongPressEnd ||
-                                    pieTouchResponse.touchInput is FlPanEnd) {
-                                  chartPieProvider.touchedIndex = -1;
-                                } else {
+                                final desiredTouch = pieTouchResponse.touchInput
+                                        is! PointerExitEvent &&
+                                    pieTouchResponse.touchInput
+                                        is! PointerUpEvent;
+                                if (desiredTouch &&
+                                    pieTouchResponse.touchedSection != null) {
                                   chartPieProvider.touchedIndex =
-                                      pieTouchResponse.touchedSectionIndex;
+                                      pieTouchResponse
+                                          .touchedSection!.touchedSectionIndex;
+                                } else {
+                                  chartPieProvider.touchedIndex = -1;
                                 }
                               }),
                               borderData: FlBorderData(show: false),
