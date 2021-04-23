@@ -40,7 +40,9 @@ class SearchDialog extends StatelessWidget {
                         });
                       },
                     ),
-                    Text('busta de datas'),
+                    Text(expensesProvider.startDate == null
+                        ? ''
+                        : '${expensesProvider.startDate?.day}/${expensesProvider.startDate?.month}/${expensesProvider.startDate?.year}'),
                   ],
                 ),
                 Row(
@@ -66,7 +68,9 @@ class SearchDialog extends StatelessWidget {
                         });
                       },
                     ),
-                    Text('busta de datas'),
+                    Text(expensesProvider.endDate == null
+                        ? ''
+                        : '${expensesProvider.endDate?.day}/${expensesProvider.endDate?.month}/${expensesProvider.endDate?.year}'),
                   ],
                 ),
               ],
