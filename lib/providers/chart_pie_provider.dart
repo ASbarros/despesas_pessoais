@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import '../pages/charts/pie_chart/samples/indicator.dart';
+import '../pages/charts/pie_chart/indicator.dart';
 import '../models/chart_pie_data_model.dart';
 import '../repositorys/chart_pie_repository.dart';
 
