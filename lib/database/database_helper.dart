@@ -47,9 +47,10 @@ class DatabaseHelper {
     return res;
   }
 
-  Future<List<Map<String, dynamic>>> getAll(String table) async {
+  Future<List<Map<String, dynamic>>> getAll(String table,
+      [String orderBy = 'title asc']) async {
     final db = await instance.database;
-    final res = await db!.query(table, orderBy: 'title asc');
+    final res = await db!.query(table, orderBy: orderBy);
     return res;
   }
 
