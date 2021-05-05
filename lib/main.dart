@@ -4,10 +4,11 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'pages/category/category_page.dart';
-import 'pages/charts/pie_chart/pie_chart.dart';
+import 'pages/charts/charts.dart';
 import 'pages/home_page.dart';
 import 'providers/category_provider.dart';
 import 'providers/chart_pie_provider.dart';
+import 'providers/chart_line_provider.dart';
 import 'providers/expenses_provider.dart';
 import 'providers/page_provider.dart';
 
@@ -29,6 +30,10 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => ChartPieProvider(),
+          lazy: false,
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ChartLineProvider(),
           lazy: false,
         ),
         ChangeNotifierProvider(
