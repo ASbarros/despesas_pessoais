@@ -1,7 +1,7 @@
-import 'package:financas_pessoais/database/database_helper.dart';
-import 'package:financas_pessoais/database/tables/categories_table.dart';
-import 'package:financas_pessoais/database/tables/expenses_table.dart';
-import 'package:financas_pessoais/models/chart_pie_data_model.dart';
+import '../database/database_helper.dart';
+import '../database/tables/categories_table.dart';
+import '../database/tables/expenses_table.dart';
+import '../models/chart_pie_data_model.dart';
 
 class ChartPieRepository {
   final _database = DatabaseHelper.instance;
