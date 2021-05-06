@@ -3,7 +3,10 @@ import 'dart:convert';
 class ChartLineDataModel {
   final String category;
   final int idCategory;
-  final items = <_Item>[];
+  final items = List<_Item>.generate(5, (index) {
+    var month = DateTime.now().month - index;
+    return _Item(value: 0, month: month);
+  });
 
   ChartLineDataModel({
     required this.category,
