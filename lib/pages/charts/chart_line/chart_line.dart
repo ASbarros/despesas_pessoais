@@ -32,7 +32,9 @@ class _MyLineChartState extends State<MyLineChart> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          ElevatedButton(onPressed: () {}, child: Text('data')),
+          SizedBox(height: 10),
+
+          ///ElevatedButton(onPressed: () {}, child: Text('data')), [rows here]
           Expanded(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,

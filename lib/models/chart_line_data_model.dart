@@ -15,12 +15,12 @@ class ChartLineDataModel {
 
   void addItem(Map<String, dynamic> map) {
     var item = _Item.fromMap(map);
-    if (items.contains(item)) {
-      items[items.indexOf(item)].value += item.value;
-    } else {
-      items.add(item);
+
+    if (item.month < DateTime.now().month &&
+        item.month > DateTime.now().month - 5) {
+      items[item.month - 1].value += item.value;
+      items.sort((a, b) => a.month.compareTo(b.month));
     }
-    items.sort((a, b) => a.month.compareTo(b.month));
   }
 
   List<double> get values => items.map((e) => e.value).toList();

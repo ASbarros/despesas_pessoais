@@ -23,19 +23,22 @@ class ChartLineRepository {
         'idCategory': idCategory,
       });
 
-      if (datas.contains(data)) {
-        final obj =
-            datas.firstWhere((element) => element.category == data.category);
-        obj.addItem({
-          'value': value,
-          'month': DateTime.fromMillisecondsSinceEpoch(item['date']).month
-        });
-      } else {
-        data.addItem({
-          'value': value,
-          'month': DateTime.fromMillisecondsSinceEpoch(item['date']).month
-        });
-        datas.add(data);
+      if (DateTime.fromMillisecondsSinceEpoch(item['date'])
+          .isAfter(DateTime.now().subtract(Duration(days: 30 * 5)))) {
+        if (datas.contains(data)) {
+          final obj =
+              datas.firstWhere((element) => element.category == data.category);
+          obj.addItem({
+            'value': value,
+            'month': DateTime.fromMillisecondsSinceEpoch(item['date']).month
+          });
+        } else {
+          data.addItem({
+            'value': value,
+            'month': DateTime.fromMillisecondsSinceEpoch(item['date']).month
+          });
+          datas.add(data);
+        }
       }
     }
     return datas;
