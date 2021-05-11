@@ -18,7 +18,7 @@ class ChartLineDataModel {
 
     if (item.month < DateTime.now().month &&
         item.month > DateTime.now().month - 5) {
-      items[item.month - 1].value += item.value;
+      items[item.month].value += item.value;
       items.sort((a, b) => a.month.compareTo(b.month));
     }
   }

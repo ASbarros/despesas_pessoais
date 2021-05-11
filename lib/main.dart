@@ -7,6 +7,7 @@ import 'pages/category/category_page.dart';
 import 'pages/charts/charts.dart';
 import 'pages/home_page.dart';
 import 'providers/category_provider.dart';
+import 'providers/chart_page_provider.dart';
 import 'providers/chart_pie_provider.dart';
 import 'providers/chart_line_provider.dart';
 import 'providers/expenses_provider.dart';
@@ -30,6 +31,10 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => ChartPieProvider(),
+          lazy: false,
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ChartPageProvider(),
           lazy: false,
         ),
         ChangeNotifierProvider(

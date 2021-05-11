@@ -1,12 +1,12 @@
 import 'package:financas_pessoais/models/chart_line_data_model.dart';
 import 'package:financas_pessoais/repositorys/chart_line_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_charts/flutter_charts.dart';
 
 class ChartLineProvider with ChangeNotifier {
   final _repository = ChartLineRepository();
 
   var data = <ChartLineDataModel>[];
+  var maxY = 0.0;
 
   ChartLineProvider() {
     _init();
@@ -14,24 +14,22 @@ class ChartLineProvider with ChangeNotifier {
 
   void _init() async {
     data = await _repository.data();
+    maxY = _repository.maxY;
   }
 
-  LineChartOptions lineChartOptions = LineChartOptions();
+  Color getColor(int index) {
+    return const [
+      Colors.green,
+      Colors.yellow,
+      Colors.black,
+      Colors.blue,
+      Colors.red,
+    ][index];
+  }
 
-  /// Define options for vertical bar chart, if used in the demo
-  ChartOptions _verticalBarChartOptions = VerticalBarChartOptions();
-
-  /// Define Layout strategy go labels. todo-null-safety : this can be null here
-  LabelLayoutStrategy xContainerLabelLayoutStrategy =
-      DefaultIterativeLabelLayoutStrategy(
-    options: VerticalBarChartOptions(),
-  );
-
-  /// Define data to be displayed
-  ChartData chartData = RandomChartData(useUserProvidedYLabels: true);
-
-  String getMonth([int month = 0]) {
-    switch (month) {
+  String getMonth([double month = 0]) {
+    var index = month.toInt();
+    switch (index) {
       case 1:
         return 'JAR';
       case 2:
@@ -62,16 +60,41 @@ class ChartLineProvider with ChangeNotifier {
     }
   }
 
-  void defineOptionsAndData() {
-    lineChartOptions = LineChartOptions();
-    _verticalBarChartOptions = VerticalBarChartOptions();
-    xContainerLabelLayoutStrategy = DefaultIterativeLabelLayoutStrategy(
-      options: _verticalBarChartOptions,
-    );
-    chartData = ChartData();
-    chartData.dataRowsLegends = data.map((e) => e.category).toList();
-    chartData.dataRows = data.map((e) => e.values).toList();
-    chartData.xLabels = data[0].months.map((e) => getMonth(e)).toList();
-    chartData.assignDataRowsDefaultColors();
+  String getTitles(double value) {
+    var index = value.toInt() ~/ 100;
+
+    switch (index) {
+      case 1:
+        return '100';
+      case 2:
+        return '200';
+      case 3:
+        return '300';
+      case 4:
+        return '400';
+      case 5:
+        return '500';
+      case 6:
+        return '600';
+      case 7:
+        return '700';
+      case 8:
+        return '800';
+      case 9:
+        return '900';
+      case 10:
+        return '1.0k';
+      case 12:
+        return '1.2k';
+      case 14:
+        return '1.4k';
+      case 16:
+        return '1.6k';
+      case 18:
+        return '1.8k';
+      case 20:
+        return '2.0k';
+    }
+    return '';
   }
 }

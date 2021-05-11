@@ -1,3 +1,4 @@
+import 'package:financas_pessoais/providers/chart_page_provider.dart';
 import 'package:financas_pessoais/providers/chart_pie_provider.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/gestures.dart';
@@ -17,7 +18,8 @@ class PieChartPageState extends State<PieChartPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ChartPieProvider>(builder: (_, chartPieProvider, __) {
+    return Consumer2<ChartPieProvider, ChartPageProvider>(
+        builder: (_, chartPieProvider, chartPageProvider, __) {
       return AspectRatio(
         aspectRatio: 1.3,
         child: Card(
@@ -51,7 +53,8 @@ class PieChartPageState extends State<PieChartPage> {
                               borderData: FlBorderData(show: false),
                               sectionsSpace: 1,
                               centerSpaceRadius: 30,
-                              sections: chartPieProvider.showingSections()),
+                              sections: chartPieProvider
+                                  .showingSections(chartPageProvider.visible)),
                         ),
                       ),
                     ),

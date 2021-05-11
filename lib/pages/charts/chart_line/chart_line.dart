@@ -1,51 +1,106 @@
-import 'package:flutter_charts/flutter_charts.dart' hide Container;
-
+import 'package:financas_pessoais/providers/chart_page_provider.dart';
+import 'package:fl_chart/fl_chart.dart';
 import '../../../providers/chart_line_provider.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class MyLineChart extends StatefulWidget {
+class ChartLine2 extends StatefulWidget {
   @override
-  _MyLineChartState createState() => _MyLineChartState();
+  _ChartLine2State createState() => _ChartLine2State();
 }
 
-class _MyLineChartState extends State<MyLineChart> {
+class _ChartLine2State extends State<ChartLine2> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final chartLineProvider = context.read<ChartLineProvider>();
-    chartLineProvider.defineOptionsAndData();
-
-    var lineChartContainer = LineChartContainer(
-      chartData: chartLineProvider.chartData,
-      chartOptions: chartLineProvider.lineChartOptions,
-      xContainerLabelLayoutStrategy:
-          chartLineProvider.xContainerLabelLayoutStrategy,
-    );
-
-    var lineChart = LineChart(
-      painter: LineChartPainter(lineChartContainer: lineChartContainer),
-      container: lineChartContainer,
-    );
-
+    final chartPageProvider = context.watch<ChartPageProvider>();
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          SizedBox(height: 10),
-
-          ///ElevatedButton(onPressed: () {}, child: Text('data')), [rows here]
-          Expanded(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(child: lineChart),
-              ],
+      child: AspectRatio(
+        aspectRatio: 1.23,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 20, top: 20),
+                child: LineChart(
+                  sampleData1(chartLineProvider, chartPageProvider.visible),
+                  swapAnimationDuration: const Duration(milliseconds: 250),
+                ),
+              ),
             ),
-          ),
-          SizedBox(height: 10)
-        ],
+          ],
+        ),
       ),
+    );
+  }
+
+  LineChartData sampleData1(ChartLineProvider provider, bool visible) {
+    return LineChartData(
+      lineTouchData: LineTouchData(
+        touchTooltipData: LineTouchTooltipData(
+          fitInsideHorizontally: true,
+          fitInsideVertically: true,
+          tooltipBgColor: Colors.white10.withOpacity(0.8),
+        ),
+        handleBuiltInTouches: visible,
+      ),
+      gridData: FlGridData(show: true, horizontalInterval: 300),
+      titlesData: FlTitlesData(
+        bottomTitles: SideTitles(
+          showTitles: true,
+          reservedSize: 22,
+          margin: 10,
+          getTitles: provider.getMonth,
+        ),
+        leftTitles: SideTitles(
+          interval: 300,
+          showTitles: true,
+          getTitles: visible ? provider.getTitles : (double _) => '',
+          margin: 8,
+          reservedSize: 30,
+        ),
+      ),
+      borderData: FlBorderData(
+        show: true,
+        border: const Border(
+          bottom: BorderSide(
+            color: Color(0xff4e4965),
+            width: 4,
+          ),
+          left: BorderSide(
+            color: Colors.transparent,
+          ),
+          right: BorderSide(
+            color: Colors.transparent,
+          ),
+          top: BorderSide(
+            color: Colors.transparent,
+          ),
+        ),
+      ),
+      minX: 1,
+      maxX: 5,
+      maxY: provider.maxY,
+      minY: 0,
+      lineBarsData: provider.data
+          .map((e) => LineChartBarData(
+                spots: e.items
+                    .map((i) => FlSpot(i.month.toDouble(),
+                        double.parse(i.value.toStringAsFixed(2))))
+                    .toList(),
+                isCurved: true,
+                show: true,
+                barWidth: 4,
+                colors: [provider.getColor(provider.data.indexOf(e))],
+              ))
+          .toList(),
     );
   }
 }

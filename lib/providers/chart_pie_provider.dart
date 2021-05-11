@@ -5,7 +5,6 @@ import '../models/chart_pie_data_model.dart';
 import '../repositorys/chart_pie_repository.dart';
 
 class ChartPieProvider with ChangeNotifier {
-  bool _visible = true;
   int _touchedIndex = -1;
   final _repository = ChartPieRepository();
 
@@ -34,13 +33,6 @@ class ChartPieProvider with ChangeNotifier {
     _data = await _repository.data();
   }
 
-  set visible(bool value) {
-    _visible = value;
-    notifyListeners();
-  }
-
-  bool get visible => _visible;
-
   List<ChartPieDataModel> get data => [..._data];
 
   set touchedIndex(int index) {
@@ -57,7 +49,7 @@ class ChartPieProvider with ChangeNotifier {
 
   int get touchedIndex => _touchedIndex;
 
-  List<PieChartSectionData> showingSections() {
+  List<PieChartSectionData> showingSections(bool visible) {
     _loadData();
 
     final res = <PieChartSectionData>[];

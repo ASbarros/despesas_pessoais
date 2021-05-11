@@ -6,6 +6,7 @@ import '../models/chart_line_data_model.dart';
 
 class ChartLineRepository {
   final _database = DatabaseHelper.instance;
+  double maxY = 0;
   Future<List<ChartLineDataModel>> data() async {
     final datas = <ChartLineDataModel>[];
     final listExpenses =
@@ -41,6 +42,11 @@ class ChartLineRepository {
         }
       }
     }
+    datas.forEach((element) {
+      element.items.forEach((e) {
+        if (e.value > maxY) maxY = e.value;
+      });
+    });
     return datas;
   }
 }

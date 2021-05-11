@@ -1,5 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:financas_pessoais/pages/charts/chart_line/chart_line.dart';
+import 'package:financas_pessoais/providers/chart_page_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -32,9 +33,9 @@ class _ChartsPageState extends State<ChartsPage> {
       ),
     ),
     Container(
-      color: const Color(0xffeceaeb),
-      child: MyLineChart(),
-    )
+        color: const Color(0xffeceaeb),
+        height: double.infinity,
+        child: ChartLine2())
   ];
 
   void _setPage(int index) {
@@ -45,17 +46,17 @@ class _ChartsPageState extends State<ChartsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final chartProvider = Provider.of<ChartPieProvider>(context);
+    final chartPageProvider = Provider.of<ChartPageProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Gráficos'),
         actions: [
           IconButton(
-              icon: Icon(chartProvider.visible
+              icon: Icon(chartPageProvider.visible
                   ? FontAwesomeIcons.solidEye
                   : FontAwesomeIcons.solidEyeSlash),
               onPressed: () {
-                chartProvider.visible = !chartProvider.visible;
+                chartPageProvider.visible = !chartPageProvider.visible;
               }),
         ],
       ),
