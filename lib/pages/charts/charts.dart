@@ -1,13 +1,11 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:financas_pessoais/pages/charts/chart_line/chart_line.dart';
-import 'package:financas_pessoais/providers/chart_page_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../common/custom_drawer/my_drawer.dart';
-
-import '../../providers/chart_pie_provider.dart';
+import '../../providers/chart_page_provider.dart';
+import 'chart_line/chart_line.dart';
 import 'pie_chart/pie_chart_page.dart';
 
 class ChartsPage extends StatefulWidget {
