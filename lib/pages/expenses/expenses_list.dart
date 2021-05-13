@@ -4,7 +4,7 @@ import '../../controllers/expenses_list_controller.dart';
 import 'expenses_form.dart';
 
 class ExpensesList extends StatelessWidget {
-  final HomeController _controller;
+  final ExpensesListController _controller;
   const ExpensesList(this._controller, {Key? key}) : super(key: key);
 
   @override

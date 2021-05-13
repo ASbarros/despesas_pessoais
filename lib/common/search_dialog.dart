@@ -6,7 +6,7 @@ class SearchDialog extends StatelessWidget {
   final String? initialText;
 
   SearchDialog({Key? key, this.initialText}) : super(key: key);
-  final _controller = HomeController();
+  final _controller = ExpensesListController();
 
   void _openSelectDateModal(BuildContext context) {
     showModalBottomSheet(

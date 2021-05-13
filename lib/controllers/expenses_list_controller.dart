@@ -4,7 +4,7 @@ import '../models/expenses_model.dart';
 import '../repositorys/expenses_repository.dart';
 import 'controller_base.dart';
 
-class HomeController extends ControllerBase {
+class ExpensesListController extends ControllerBase {
   final title = RxNotifier<String>('Despesas Pessoais'),
       _search = RxNotifier<String?>(null),
       _repository = ExpensesRepository(),
@@ -14,7 +14,7 @@ class HomeController extends ControllerBase {
 
   var _items = RxList<ExpensesModel>([]);
 
-  HomeController() {
+  ExpensesListController() {
     init();
   }
 

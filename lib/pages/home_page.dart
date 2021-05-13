@@ -16,12 +16,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late final HomeController _controller;
+  late final ExpensesListController _controller;
 
   @override
   void initState() {
     super.initState();
-    _controller = HomeController();
+    _controller = ExpensesListController();
   }
 
   @override
