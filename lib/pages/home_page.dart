@@ -89,7 +89,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: ExpensesList(_controller)),
             ),
           ),
-          FooterHome(totalValue: _controller.totalValue),
+          RxBuilder(
+              builder: (_) => FooterHome(totalValue: _controller.totalValue)),
         ],
       ),
     );
