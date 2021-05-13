@@ -1,18 +1,17 @@
-import 'package:financas_pessoais/providers/expenses_provider.dart';
+import 'package:financas_pessoais/controllers/expenses_list_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 
 class SearchDialog extends StatelessWidget {
-  final String initialText;
+  final String? initialText;
 
-  const SearchDialog({Key? key, this.initialText = ''}) : super(key: key);
+  SearchDialog({Key? key, this.initialText}) : super(key: key);
+  final _controller = HomeController();
 
   void _openSelectDateModal(BuildContext context) {
     showModalBottomSheet(
         context: context,
         builder: (ctx) {
-          final expensesProvider = Provider.of<ExpensesProvider>(ctx);
           return Card(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -26,8 +25,7 @@ class SearchDialog extends StatelessWidget {
                       onPressed: () {
                         showDatePicker(
                           context: context,
-                          initialDate:
-                              expensesProvider.startDate ?? DateTime.now(),
+                          initialDate: _controller.startDate ?? DateTime.now(),
                           firstDate: DateTime(2020),
                           lastDate: DateTime.now(),
                         ).then((pickedDate) {
@@ -35,14 +33,14 @@ class SearchDialog extends StatelessWidget {
                             return;
                           }
 
-                          expensesProvider.startDate = pickedDate;
+                          _controller.startDate = pickedDate;
                           Navigator.of(context).pop();
                         });
                       },
                     ),
-                    Text(expensesProvider.startDate == null
+                    Text(_controller.startDate == null
                         ? ''
-                        : '${expensesProvider.startDate?.day}/${expensesProvider.startDate?.month}/${expensesProvider.startDate?.year}'),
+                        : '${_controller.startDate?.day}/${_controller.startDate?.month}/${_controller.startDate?.year}'),
                   ],
                 ),
                 Row(
@@ -54,8 +52,7 @@ class SearchDialog extends StatelessWidget {
                       onPressed: () {
                         showDatePicker(
                           context: context,
-                          initialDate:
-                              expensesProvider.endDate ?? DateTime.now(),
+                          initialDate: _controller.endDate ?? DateTime.now(),
                           firstDate: DateTime(2020),
                           lastDate: DateTime.now(),
                         ).then((pickedDate) {
@@ -63,14 +60,14 @@ class SearchDialog extends StatelessWidget {
                             return;
                           }
 
-                          expensesProvider.endDate = pickedDate;
+                          _controller.endDate = pickedDate;
                           Navigator.of(context).pop();
                         });
                       },
                     ),
-                    Text(expensesProvider.endDate == null
+                    Text(_controller.endDate == null
                         ? ''
-                        : '${expensesProvider.endDate?.day}/${expensesProvider.endDate?.month}/${expensesProvider.endDate?.year}'),
+                        : '${_controller.endDate?.day}/${_controller.endDate?.month}/${_controller.endDate?.year}'),
                   ],
                 ),
               ],

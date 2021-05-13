@@ -1,9 +1,10 @@
-import 'package:financas_pessoais/common/search_dialog.dart';
-import 'package:financas_pessoais/providers/expenses_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:rx_notifier/rx_notifier.dart';
 
 import '../common/custom_drawer/my_drawer.dart';
+import '../common/page_default.dart';
+import '../common/search_dialog.dart';
+import '../controllers/expenses_list_controller.dart';
 import 'charts/chart_card/chart.dart';
 import 'expenses/expenses_form.dart';
 import 'expenses/expenses_list.dart';
@@ -15,21 +16,29 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late final HomeController _controller;
+
   @override
   void initState() {
     super.initState();
+    _controller = HomeController();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   void _openTransactionFormModal(BuildContext context) {
     showModalBottomSheet(
         context: context,
         builder: (_) {
-          final expensesProvider = Provider.of<ExpensesProvider>(context);
           return ExpensesForm(onSubmit: (obj) async {
             if (obj.id != null && obj.id! > 0) {
-              await expensesProvider.update(obj);
+              await _controller.update(obj);
             } else {
-              await expensesProvider.add(obj);
+              await _controller.add(obj);
             }
             Navigator.of(context).pop();
           });
@@ -38,15 +47,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final expensesProvider = Provider.of<ExpensesProvider>(context);
-
     return Scaffold(
       appBar: AppBar(
-        title: Visibility(
-          visible: expensesProvider.search.isEmpty,
-          replacement: Text(expensesProvider.search),
-          child: const Text('Despesas Pessoais'),
-        ),
+        title: RxBuilder(
+            builder: (_) =>
+                Text(_controller.search ?? _controller.title.value)),
         centerTitle: true,
         actions: [
           IconButton(
@@ -55,9 +60,9 @@ class _MyHomePageState extends State<MyHomePage> {
               final search = await showDialog<String>(
                   context: context,
                   builder: (_) => SearchDialog(
-                        initialText: expensesProvider.search,
+                        initialText: _controller.search,
                       ));
-              expensesProvider.search = search ?? '';
+              _controller.search = search;
             },
           ),
           IconButton(
@@ -71,11 +76,20 @@ class _MyHomePageState extends State<MyHomePage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          ChartCard(recentTransactions: expensesProvider.recentExpenses),
-          Flexible(
-            child: ExpensesList(),
+          RxBuilder(
+            builder: (_) =>
+                ChartCard(recentTransactions: _controller.recentExpenses),
           ),
-          FooterHome(totalValue: expensesProvider.totalValue)
+          Flexible(
+            child: RxBuilder(
+              builder: (_) => Visibility(
+                  visible: !(_controller.loading.value &&
+                      _controller.filteredExpenses.isEmpty),
+                  replacement: PageDefault(),
+                  child: ExpensesList(_controller)),
+            ),
+          ),
+          FooterHome(totalValue: _controller.totalValue),
         ],
       ),
     );

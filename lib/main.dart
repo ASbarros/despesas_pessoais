@@ -10,7 +10,6 @@ import 'providers/category_provider.dart';
 import 'providers/chart_page_provider.dart';
 import 'providers/chart_pie_provider.dart';
 import 'providers/chart_line_provider.dart';
-import 'providers/expenses_provider.dart';
 import 'providers/page_provider.dart';
 
 void main() => runApp(MyApp());
@@ -21,10 +20,6 @@ class MyApp extends StatelessWidget {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (_) => ExpensesProvider(),
-          lazy: true,
-        ),
         ChangeNotifierProvider(
           create: (_) => CategoryProvider(),
           lazy: true,
