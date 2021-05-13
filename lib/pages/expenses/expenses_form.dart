@@ -1,11 +1,12 @@
 import 'package:brasil_fields/brasil_fields.dart';
-import 'package:financas_pessoais/models/expenses_model.dart';
-import 'package:financas_pessoais/providers/category_provider.dart';
-import 'package:financas_pessoais/repositorys/expenses_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+
+import '../../models/expenses_model.dart';
+import '../../providers/category_provider.dart';
+import '../../repositorys/expenses_repository.dart';
 
 class ExpensesForm extends StatefulWidget {
   final void Function(ExpensesModel) onSubmit;
@@ -88,7 +89,9 @@ class _ExpensesFormState extends State<ExpensesForm> {
 
     final categories = categoryProvider.items;
     if (dropdownValue == 0) {
-      dropdownValue = categories.first.id!;
+      // ignore: todo
+      dropdownValue =
+          categories.first.id!; //TODO: sempre da erro na primeira vez
     }
     return Card(
       elevation: 5,
