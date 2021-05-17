@@ -45,6 +45,17 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
+  final Stream<int> _bids = (() async* {
+    await Future<void>.delayed(Duration(seconds: 1));
+    yield 1;
+    await Future<void>.delayed(Duration(seconds: 1));
+  })();
+  final Stream<int> _bids2 = (() async* {
+    await Future<void>.delayed(Duration(seconds: 1));
+    yield 1;
+    await Future<void>.delayed(Duration(seconds: 1));
+  })();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,8 +87,9 @@ class _MyHomePageState extends State<MyHomePage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          RxBuilder(
-            builder: (_) =>
+          StreamBuilder(
+            stream: _bids,
+            builder: (BuildContext context, AsyncSnapshot<int> snapshot) =>
                 ChartCard(recentTransactions: _controller.recentExpenses),
           ),
           Flexible(
@@ -89,8 +101,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: ExpensesList(_controller)),
             ),
           ),
-          RxBuilder(
-              builder: (_) => FooterHome(totalValue: _controller.totalValue)),
+          StreamBuilder(
+              stream: _bids2,
+              builder: (BuildContext context, AsyncSnapshot<int> snapshot) =>
+                  FooterHome(totalValue: _controller.totalValue)),
         ],
       ),
     );
