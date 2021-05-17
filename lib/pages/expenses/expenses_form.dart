@@ -2,10 +2,9 @@ import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
+import '../../controllers/category_list_controller.dart';
 import '../../models/expenses_model.dart';
-import '../../providers/category_provider.dart';
 import '../../repositorys/expenses_repository.dart';
 
 class ExpensesForm extends StatefulWidget {
@@ -26,6 +25,8 @@ class _ExpensesFormState extends State<ExpensesForm> {
   final _valueController = TextEditingController(text: '#,##');
 
   final _repositoryExpense = ExpensesRepository();
+
+  final _controller = CategorylistController();
 
   int dropdownValue = 0;
 
@@ -71,6 +72,12 @@ class _ExpensesFormState extends State<ExpensesForm> {
     init();
   }
 
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   void init() async {
     if (widget.id != null && widget.id! > 0) {
       _expensesModel = await _repositoryExpense.getById(widget.id!);
@@ -85,12 +92,10 @@ class _ExpensesFormState extends State<ExpensesForm> {
 
   @override
   Widget build(BuildContext context) {
-    final categoryProvider = Provider.of<CategoryProvider>(context);
-
-    final categories = categoryProvider.items;
+    final categories = _controller.items;
     if (dropdownValue == 0) {
-      // ignore: todo
       dropdownValue =
+          // ignore: todo
           categories.first.id!; //TODO: sempre da erro na primeira vez
     }
     return Card(
