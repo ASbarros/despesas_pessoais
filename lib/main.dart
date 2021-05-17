@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'pages/category/category_page.dart';
 import 'pages/charts/charts.dart';
 import 'pages/home_page.dart';
-import 'providers/category_provider.dart';
+import 'providers/category_provider_.dart';
 import 'providers/chart_page_provider.dart';
 import 'providers/chart_pie_provider.dart';
 import 'providers/chart_line_provider.dart';
