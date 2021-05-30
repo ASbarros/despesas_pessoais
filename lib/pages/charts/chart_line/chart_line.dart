@@ -47,7 +47,31 @@ class _ChartLine2State extends State<ChartLine2> {
         touchTooltipData: LineTouchTooltipData(
           fitInsideHorizontally: true,
           fitInsideVertically: true,
-          tooltipBgColor: Colors.white10.withOpacity(0.8),
+          tooltipBgColor: Colors.blueAccent,
+          getTooltipItems: (List<LineBarSpot> touchedSpots) {
+            return touchedSpots.map((barSpot) {
+              final flSpot = barSpot;
+              if (flSpot.x == 0) {
+                return null;
+              }
+              return LineTooltipItem(
+                '${provider.data[flSpot.barIndex].category}: ',
+                const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+                children: [
+                  TextSpan(
+                    text: flSpot.y.toString(),
+                    style: TextStyle(
+                      color: Colors.grey[100],
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                ],
+              );
+            }).toList();
+          },
         ),
         handleBuiltInTouches: visible,
       ),
