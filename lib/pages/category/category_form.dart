@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
+import '../../controllers/category_list_controller.dart';
 import '../../models/category_model.dart';
-import '../../providers/category_provider_.dart';
 import '../../repositorys/category_repository.dart';
 
 class CategoryForm extends StatefulWidget {
@@ -17,6 +16,7 @@ class _CategoryFormState extends State<CategoryForm> {
   final _titleController = TextEditingController();
   final _repository = CategoryRepository();
   CategoryModel category = CategoryModel(title: '');
+  final _controller = CategorylistController();
 
   @override
   void initState() {
@@ -35,9 +35,13 @@ class _CategoryFormState extends State<CategoryForm> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final categoryProvider = Provider.of<CategoryProvider>(context);
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     void _submitForm() {
       final title = _titleController.text;
 
@@ -48,9 +52,9 @@ class _CategoryFormState extends State<CategoryForm> {
       category = CategoryModel(title: title);
       if (widget.id != null && widget.id! > 0) {
         category.id = widget.id;
-        categoryProvider.update(category);
+        _controller.update(category);
       } else {
-        categoryProvider.add(category);
+        _controller.add(category);
       }
       Navigator.of(context).pop();
     }

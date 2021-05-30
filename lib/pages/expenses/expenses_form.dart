@@ -2,8 +2,10 @@ import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:rx_notifier/rx_notifier.dart';
 
-import '../../controllers/category_list_controller.dart';
+import '../../controllers/expenses_form_controller.dart';
+import '../../models/category_model.dart';
 import '../../models/expenses_model.dart';
 import '../../repositorys/expenses_repository.dart';
 
@@ -26,7 +28,7 @@ class _ExpensesFormState extends State<ExpensesForm> {
 
   final _repositoryExpense = ExpensesRepository();
 
-  final _controller = CategorylistController();
+  final _controllerFormExpense = ExpensesFormController();
 
   int dropdownValue = 0;
 
@@ -69,12 +71,13 @@ class _ExpensesFormState extends State<ExpensesForm> {
   @override
   void initState() {
     super.initState();
+    _controllerFormExpense.init();
     init();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controllerFormExpense.dispose();
     super.dispose();
   }
 
@@ -84,7 +87,7 @@ class _ExpensesFormState extends State<ExpensesForm> {
       _titleController.text = _expensesModel.title;
       _valueController.text = _expensesModel.valueFormatted;
       _selectedDate = _expensesModel.date;
-      dropdownValue = _expensesModel.category;
+      dropdownValue = _controllerFormExpense.selectedCategory.value!.id!;
     }
 
     setState(() {});
@@ -92,12 +95,6 @@ class _ExpensesFormState extends State<ExpensesForm> {
 
   @override
   Widget build(BuildContext context) {
-    final categories = _controller.items;
-    if (dropdownValue == 0) {
-      dropdownValue =
-          // ignore: todo
-          categories.first.id!; //TODO: sempre da erro na primeira vez
-    }
     return Card(
       elevation: 5,
       child: Padding(
@@ -124,9 +121,10 @@ class _ExpensesFormState extends State<ExpensesForm> {
                 const Expanded(flex: 3, child: Text('Categoria')),
                 Expanded(
                   flex: 5,
-                  child: categories.isNotEmpty
-                      ? DropdownButton<int>(
-                          value: dropdownValue,
+                  child: RxBuilder(builder: (_) {
+                    if (_controllerFormExpense.dropdownMenuItems.isNotEmpty) {
+                      return DropdownButton<CategoryModel>(
+                          value: _controllerFormExpense.selectedCategory.value,
                           icon: const Icon(Icons.arrow_drop_down),
                           elevation: 16,
                           style: const TextStyle(color: Colors.deepPurple),
@@ -136,23 +134,19 @@ class _ExpensesFormState extends State<ExpensesForm> {
                           ),
                           onChanged: (newValue) {
                             setState(() {
-                              dropdownValue = newValue!;
+                              _controllerFormExpense.selectedCategory.value =
+                                  newValue!;
                             });
                           },
-                          items:
-                              categories.map<DropdownMenuItem<int>>((category) {
-                            return DropdownMenuItem<int>(
-                              value: category.id,
-                              child: Text(category.title),
-                            );
-                          }).toList(),
-                        )
-                      : Center(
-                          child: LinearProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation(Colors.green),
-                          minHeight: 7,
-                          backgroundColor: Colors.redAccent,
-                        )),
+                          items: _controllerFormExpense.dropdownMenuItems);
+                    }
+                    return Center(
+                        child: LinearProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation(Colors.green),
+                      minHeight: 7,
+                      backgroundColor: Colors.redAccent,
+                    ));
+                  }),
                 ),
               ],
             ),

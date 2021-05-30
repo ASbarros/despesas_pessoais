@@ -7,6 +7,7 @@ import 'controller_base.dart';
 class ExpensesListController extends ControllerBase {
   final title = RxNotifier<String>('Despesas Pessoais'),
       _search = RxNotifier<String?>(null),
+      _filterCurrentMonth = RxNotifier<bool>(false),
       _repository = ExpensesRepository(),
       _startDate = RxNotifier<DateTime?>(null),
       _endDate = RxNotifier<DateTime?>(null),
@@ -42,6 +43,12 @@ class ExpensesListController extends ControllerBase {
 
   set search(String? value) {
     _search.value = value;
+  }
+
+  bool get filterCurrentMonth => _filterCurrentMonth.value;
+
+  set filterCurrentMonth(bool value) {
+    _filterCurrentMonth.value = value;
   }
 
   DateTime? get startDate => _startDate.value;
@@ -86,8 +93,16 @@ class ExpensesListController extends ControllerBase {
         .toList();
   }
 
-  double get totalValue => filteredExpenses.fold(
-      0.0, (previousValue, element) => previousValue += element.value);
+  double get totalValue => filteredExpenses.fold(0.0, (previousValue, element) {
+        if (filterCurrentMonth) {
+          if (element.date.month == DateTime.now().month) {
+            return previousValue += element.value;
+          } else {
+            return previousValue;
+          }
+        }
+        return previousValue += element.value;
+      });
 
   Future<void> add(ExpensesModel expense) async {
     expense.id = await _repository.insert(expense);
