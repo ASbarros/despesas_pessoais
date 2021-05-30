@@ -104,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
           StreamBuilder(
               stream: _bids2,
               builder: (BuildContext context, AsyncSnapshot<int> snapshot) =>
-                  FooterHome(totalValue: _controller.totalValue)),
+                  FooterHome(_controller)),
         ],
       ),
     );
