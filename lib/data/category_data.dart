@@ -1,11 +1,9 @@
-import 'package:financas_pessoais/models/category_model.dart';
-
 class CategoryData {
   static var items = [
-    CategoryModel(title: 'economias', id: 1).toMap(),
-    CategoryModel(title: 'essencial', id: 2).toMap(),
-    CategoryModel(title: 'investimentos', id: 3).toMap(),
-    CategoryModel(title: 'lazer', id: 4).toMap(),
-    CategoryModel(title: 'moto', id: 5).toMap(),
+    {'id': 5, 'title': 'economias'},
+    {'id': 1, 'title': 'essencial'},
+    {'id': 3, 'title': 'investimentos'},
+    {'id': 4, 'title': 'lazer'},
+    {'id': 2, 'title': 'moto'}
   ];
 }

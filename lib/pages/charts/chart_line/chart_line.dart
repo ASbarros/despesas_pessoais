@@ -47,7 +47,7 @@ class _ChartLine2State extends State<ChartLine2> {
         touchTooltipData: LineTouchTooltipData(
           fitInsideHorizontally: true,
           fitInsideVertically: true,
-          tooltipBgColor: Colors.blueAccent,
+          tooltipBgColor: Colors.white60,
           getTooltipItems: (List<LineBarSpot> touchedSpots) {
             return touchedSpots.map((barSpot) {
               final flSpot = barSpot;
@@ -56,15 +56,16 @@ class _ChartLine2State extends State<ChartLine2> {
               }
               return LineTooltipItem(
                 '${provider.data[flSpot.barIndex].category}: ',
-                const TextStyle(
-                  color: Colors.white,
+                TextStyle(
+                  color: provider.getColor(
+                      provider.data.indexOf(provider.data[flSpot.barIndex])),
                   fontWeight: FontWeight.bold,
                 ),
                 children: [
                   TextSpan(
                     text: flSpot.y.toString(),
                     style: TextStyle(
-                      color: Colors.grey[100],
+                      color: Colors.black,
                       fontWeight: FontWeight.normal,
                     ),
                   ),
@@ -110,7 +111,7 @@ class _ChartLine2State extends State<ChartLine2> {
         ),
       ),
       minX: 1,
-      maxX: 5,
+      maxX: DateTime.now().month.toDouble(),
       maxY: provider.maxY,
       minY: 0,
       lineBarsData: provider.data

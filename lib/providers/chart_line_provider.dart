@@ -92,6 +92,8 @@ class ChartLineProvider with ChangeNotifier {
         return '1.6k';
       case 18:
         return '1.8k';
+      case 19:
+        return '1.9k';
       case 20:
         return '2.0k';
     }

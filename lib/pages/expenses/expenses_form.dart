@@ -30,8 +30,6 @@ class _ExpensesFormState extends State<ExpensesForm> {
 
   final _controllerFormExpense = ExpensesFormController();
 
-  int dropdownValue = 0;
-
   DateTime _selectedDate = DateTime.now();
 
   void _submitForm() async {
@@ -46,7 +44,7 @@ class _ExpensesFormState extends State<ExpensesForm> {
         id: widget.id,
         title: title,
         value: value,
-        category: dropdownValue,
+        category: _controllerFormExpense.selectedCategory.value!.id!,
         date: _selectedDate);
 
     widget.onSubmit(_expensesModel);
@@ -71,7 +69,7 @@ class _ExpensesFormState extends State<ExpensesForm> {
   @override
   void initState() {
     super.initState();
-    _controllerFormExpense.init();
+    _controllerFormExpense.init(widget.id);
     init();
   }
 
@@ -87,7 +85,6 @@ class _ExpensesFormState extends State<ExpensesForm> {
       _titleController.text = _expensesModel.title;
       _valueController.text = _expensesModel.valueFormatted;
       _selectedDate = _expensesModel.date;
-      dropdownValue = _controllerFormExpense.selectedCategory.value!.id!;
     }
 
     setState(() {});

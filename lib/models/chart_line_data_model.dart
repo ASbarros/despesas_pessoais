@@ -16,9 +16,17 @@ class ChartLineDataModel {
   void addItem(Map<String, dynamic> map) {
     var item = _Item.fromMap(map);
 
-    if (item.month < DateTime.now().month &&
+    if (item.month < DateTime.now().month + 1 &&
         item.month > DateTime.now().month - 5) {
-      items[item.month].value += item.value;
+      items.reversed
+          .map((e) {
+            if (e.month == item.month) {
+              e.value += item.value;
+            }
+          })
+          .toList()
+          .reversed;
+      //items[item.month].value += item.value;
       items.sort((a, b) => a.month.compareTo(b.month));
     }
   }

@@ -39,7 +39,9 @@ class _MyHomePageState extends State<MyHomePage> {
               await _controller.update(obj);
             } else {
               await _controller.add(obj);
+              await _controller.init();
             }
+
             Navigator.of(context).pop();
           });
         });

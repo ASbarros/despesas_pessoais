@@ -3,12 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
+import 'pages/backup/backup_page.dart';
+
 import 'pages/category/category_page.dart';
 import 'pages/charts/charts.dart';
 import 'pages/home_page.dart';
+import 'providers/chart_line_provider.dart';
 import 'providers/chart_page_provider.dart';
 import 'providers/chart_pie_provider.dart';
-import 'providers/chart_line_provider.dart';
 import 'providers/page_provider.dart';
 
 void main() => runApp(MyApp());
@@ -72,6 +74,8 @@ class MyApp extends StatelessWidget {
           switch (settings.name) {
             case '/category-page':
               return MaterialPageRoute(builder: (_) => CategoryPage());
+            case '/backup':
+              return MaterialPageRoute(builder: (_) => BackupPage());
             case '/charts-page':
               return MaterialPageRoute(builder: (_) => ChartsPage());
             case '/home-page':

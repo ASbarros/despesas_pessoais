@@ -24,6 +24,11 @@ class ChartLineRepository {
         'idCategory': idCategory,
       });
 
+      if (item['value'] == '1000.0') {
+        print(DateTime.fromMillisecondsSinceEpoch(item['date']).month);
+        print(value);
+      }
+
       if (DateTime.fromMillisecondsSinceEpoch(item['date'])
           .isAfter(DateTime.now().subtract(Duration(days: 30 * 5)))) {
         if (datas.contains(data)) {
